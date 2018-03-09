@@ -21,7 +21,22 @@ class GoalManager(val goalBox: Box<Goal>) {
         return Observable.just(goals)
     }
 
-    fun storeGoal(goal: Goal) {
+    fun loadTodaysGoals(): io.reactivex.Observable<MutableList<Goal>> {
+        val today = Date().formatToDay()
+        val goals = goalBox.query()
+                .equal(Goal_.date, today)
+                .build()
+                .find()
+        return Observable.just(goals)
+    }
+
+    fun storeGoalForToday(goal: Goal) {
+        goal.date = Date().formatToDay()
+        goalBox.put(goal)
+    }
+
+    fun storeGoalForTomorrow(goal: Goal) {
+        goal.date = Date().getTomorrowsDate().formatToDay()
         goalBox.put(goal)
     }
 }
