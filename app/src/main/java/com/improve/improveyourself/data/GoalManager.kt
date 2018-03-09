@@ -1,18 +1,18 @@
 package com.improve.improveyourself.data
 
 import com.improve.improveyourself.data.model.Goal
+import io.objectbox.Box
 import io.reactivex.Observable
-import java.util.*
 
 /**
  * Created by konk3r on 3/8/18.
  */
-class GoalManager {
+class GoalManager(val goalBox: Box<Goal>) {
     fun loadTomorrowsGoals(): io.reactivex.Observable<MutableList<Goal>> {
-        val goals: ArrayList<Goal> = ArrayList()
-        return Observable.just(goals)
+        return Observable.just(goalBox.all)
     }
 
     fun storeGoal(goal: Goal) {
+        goalBox.put(goal)
     }
 }

@@ -9,6 +9,7 @@ import javax.inject.Singleton
  */
 @Singleton
 @Component(modules = arrayOf(AppModule::class,
+        LocalDataModule::class,
         GoalModule::class))
 interface AppComponent {
     fun inject(app: ImproveApp)

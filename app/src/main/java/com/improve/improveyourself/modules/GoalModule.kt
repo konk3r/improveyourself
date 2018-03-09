@@ -1,8 +1,10 @@
 package com.improve.improveyourself.modules
 
 import com.improve.improveyourself.data.GoalManager
+import com.improve.improveyourself.data.model.Goal
 import dagger.Module
 import dagger.Provides
+import io.objectbox.Box
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -13,14 +15,14 @@ import javax.inject.Singleton
 class GoalModule() {
     @Provides
     @Singleton
-    fun provideUserManager(): GoalManager {
-        return GoalManager()
+    fun provideUserManager(goalBox: Box<Goal>): GoalManager {
+        return GoalManager(goalBox)
     }
 
     @Provides
     @Singleton
     @Named("goal_types")
     fun provideGoalTypes(): MutableList<String> {
-        return arrayListOf("Productive", "Self Care")
+        return arrayListOf("Productive", "Self Care") as MutableList<String>
     }
 }

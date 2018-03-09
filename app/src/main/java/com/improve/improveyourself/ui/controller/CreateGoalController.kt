@@ -41,7 +41,7 @@ class CreateGoalController : Controller() {
         if(title.isEmpty()) {
             createGoalView.displayGoalError()
         } else {
-            goalManager.storeGoal(Goal(type, title, steps))
+            goalManager.storeGoal(Goal(0, type, title, steps))
             mainRouter.goBack()
         }
     }
