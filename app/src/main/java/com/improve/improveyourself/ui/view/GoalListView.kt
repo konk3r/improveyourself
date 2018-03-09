@@ -5,6 +5,6 @@ import com.improve.improveyourself.data.model.Goal
 /**
  * Created by konk3r on 2/11/18.
  */
-interface TodaysGoalsView {
+interface GoalListView {
     fun displayList(list: MutableList<Goal>)
 }

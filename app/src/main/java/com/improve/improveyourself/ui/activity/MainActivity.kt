@@ -11,10 +11,11 @@ import com.improve.improveyourself.R
 import com.improve.improveyourself.modules.MainModule
 import com.improve.improveyourself.ui.ImproveApp
 import com.improve.improveyourself.ui.controller.CreateGoalController
+import com.improve.improveyourself.ui.controller.GoalListController
 import com.improve.improveyourself.ui.controller.MainController
-import com.improve.improveyourself.ui.controller.TodaysGoalsController
-import com.improve.improveyourself.ui.controller.TomorrowsGoalsController
 import com.improve.improveyourself.ui.navigation.MainRouter
+import com.improve.improveyourself.util.formatToDay
+import com.improve.improveyourself.util.getTomorrowsDate
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -42,20 +43,23 @@ class MainActivity : AppCompatActivity(), MainRouter {
     }
 
     override fun launchTodaysGoals() {
-        router.pushController(RouterTransaction.with(TodaysGoalsController())
+        val today = Date().formatToDay()
+        router.pushController(RouterTransaction.with(GoalListController(today))
                 .pushChangeHandler(FadeChangeHandler())
                 .popChangeHandler(FadeChangeHandler())
         )
     }
 
     override fun launchTomorrowsGoals() {
-        router.pushController(RouterTransaction.with(TomorrowsGoalsController())
+        val tomorrow = Date().getTomorrowsDate().formatToDay()
+
+        router.pushController(RouterTransaction.with(GoalListController(tomorrow))
                 .pushChangeHandler(FadeChangeHandler())
                 .popChangeHandler(FadeChangeHandler())
         )
     }
 
-    override fun launchNewGoal(date: Date) {
+    override fun launchNewGoal(date: String) {
         router.pushController(RouterTransaction.with(CreateGoalController(date))
                 .pushChangeHandler(FadeChangeHandler())
                 .popChangeHandler(FadeChangeHandler())

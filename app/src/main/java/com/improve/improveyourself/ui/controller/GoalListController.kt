@@ -6,10 +6,12 @@ import android.view.ViewGroup
 import com.bluelinelabs.conductor.Controller
 import com.improve.improveyourself.R
 import com.improve.improveyourself.data.GoalManager
+import com.improve.improveyourself.modules.GoalListComponent
+import com.improve.improveyourself.modules.GoalListModule
 import com.improve.improveyourself.ui.activity.MainActivity
 import com.improve.improveyourself.ui.navigation.MainRouter
-import com.improve.improveyourself.ui.view.TodaysGoalsView
-import com.improve.improveyourself.ui.view.TodaysGoalsViewImpl
+import com.improve.improveyourself.ui.view.GoalListView
+import com.improve.improveyourself.util.formatToDay
 import io.reactivex.android.schedulers.AndroidSchedulers
 import java.util.*
 import javax.inject.Inject
@@ -18,17 +20,20 @@ import javax.inject.Inject
  * Created by konk3r on 2/7/18.
  */
 
-class TodaysGoalsController : Controller() {
+class GoalListController(val date: String) : Controller() {
 
-    val component by lazy { (activity as MainActivity).component }
-    private lateinit var tomorrowsGoalsView: TodaysGoalsView
+    private lateinit var listComponent: GoalListComponent
+    @Inject lateinit var tomorrowsGoalsView: GoalListView
     @Inject lateinit var goalManager: GoalManager
     @Inject lateinit var mainRouter: MainRouter
 
+    constructor(): this(Date().formatToDay())
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.view_tomorrows_goals, container, false)
-        component.inject(this)
-        tomorrowsGoalsView = TodaysGoalsViewImpl(view, this)
+        listComponent = (activity as MainActivity).component
+                .plus(GoalListModule(view, this))
+        listComponent.inject(this)
 
         return view
     }
@@ -39,13 +44,13 @@ class TodaysGoalsController : Controller() {
     }
 
     private fun loadGoals() {
-        goalManager.loadTodaysGoals()
+        goalManager.loadGoalsFor(date)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({list -> tomorrowsGoalsView.displayList(list)})
     }
 
     fun onFabClicked() {
-        mainRouter.launchNewGoal(Date())
+        mainRouter.launchNewGoal(date)
     }
 
 }

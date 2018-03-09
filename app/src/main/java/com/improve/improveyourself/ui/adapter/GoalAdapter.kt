@@ -5,18 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.improve.improveyourself.R
+import com.improve.improveyourself.data.GoalManager
 import com.improve.improveyourself.data.model.Goal
 
 /**
  * Created by konk3r on 3/8/18.
  */
-class GoalAdapter: RecyclerView.Adapter<GoalViewHolder>() {
+class GoalAdapter(val goalManager: GoalManager): RecyclerView.Adapter<GoalViewHolder>() {
 
     private var list: MutableList<Goal> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GoalViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.list_goal, parent, false)
-        return GoalViewHolder(view)
+        return GoalViewHolder(view, goalManager)
     }
 
     override fun getItemCount(): Int {
