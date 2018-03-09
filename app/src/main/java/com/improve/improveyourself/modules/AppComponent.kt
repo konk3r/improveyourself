@@ -1,6 +1,5 @@
 package com.improve.improveyourself.modules
 
-import com.boofr.android.modules.LocalDataModule
 import com.improve.improveyourself.ui.ImproveApp
 import dagger.Component
 import javax.inject.Singleton
@@ -10,8 +9,7 @@ import javax.inject.Singleton
  */
 @Singleton
 @Component(modules = arrayOf(AppModule::class,
-        UserModule::class,
-        LocalDataModule::class))
+        GoalModule::class))
 interface AppComponent {
     fun inject(app: ImproveApp)
     fun plus(mainModule: MainModule): MainComponent

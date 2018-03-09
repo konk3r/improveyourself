@@ -10,12 +10,14 @@ import com.bluelinelabs.conductor.changehandler.FadeChangeHandler
 import com.improve.improveyourself.R
 import com.improve.improveyourself.modules.MainModule
 import com.improve.improveyourself.ui.ImproveApp
+import com.improve.improveyourself.ui.controller.CreateGoalController
 import com.improve.improveyourself.ui.controller.MainController
 import com.improve.improveyourself.ui.controller.TomorrowsGoalsController
 import com.improve.improveyourself.ui.navigation.MainRouter
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), MainRouter {
+
     val Activity.app: ImproveApp get() = application as ImproveApp
     val component by lazy { app.component.plus(MainModule(this)) }
     private lateinit var router: Router
@@ -43,4 +45,16 @@ class MainActivity : AppCompatActivity(), MainRouter {
                 .popChangeHandler(FadeChangeHandler())
         )
     }
+
+    override fun launchNewGoal() {
+        router.pushController(RouterTransaction.with(CreateGoalController())
+                .pushChangeHandler(FadeChangeHandler())
+                .popChangeHandler(FadeChangeHandler())
+        )
+    }
+
+    override fun goBack() {
+        router.popCurrentController()
+    }
+
 }

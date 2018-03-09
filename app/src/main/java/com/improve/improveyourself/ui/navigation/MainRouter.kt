@@ -5,4 +5,6 @@ package com.improve.improveyourself.ui.navigation
  */
 interface MainRouter {
     fun launchTomorrowsGoals()
+    fun launchNewGoal()
+    fun goBack()
 }

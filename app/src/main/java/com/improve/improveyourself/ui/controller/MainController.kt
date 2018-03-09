@@ -7,8 +7,8 @@ import com.bluelinelabs.conductor.Controller
 import com.improve.improveyourself.R
 import com.improve.improveyourself.ui.activity.MainActivity
 import com.improve.improveyourself.ui.navigation.MainRouter
-import com.improve.improveyourself.view.MainView
-import com.improve.improveyourself.view.MainViewImpl
+import com.improve.improveyourself.ui.view.MainView
+import com.improve.improveyourself.ui.view.MainViewImpl
 import javax.inject.Inject
 
 /**

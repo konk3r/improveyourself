@@ -1,4 +1,4 @@
-package com.improve.improveyourself.view
+package com.improve.improveyourself.ui.view
 
 import android.view.View
 import com.improve.improveyourself.ui.controller.MainController
