@@ -11,6 +11,9 @@ import com.improve.improveyourself.ui.activity.MainActivity
 import com.improve.improveyourself.ui.navigation.MainRouter
 import com.improve.improveyourself.ui.view.CreateGoalView
 import com.improve.improveyourself.ui.view.CreateGoalViewImpl
+import com.improve.improveyourself.util.formatToDay
+import com.improve.improveyourself.util.getTomorrowsDate
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -41,7 +44,8 @@ class CreateGoalController : Controller() {
         if(title.isEmpty()) {
             createGoalView.displayGoalError()
         } else {
-            goalManager.storeGoal(Goal(0, type, title, steps))
+            val date = Date().getTomorrowsDate().formatToDay()
+            goalManager.storeGoal(Goal(0, type, title, date, steps))
             mainRouter.goBack()
         }
     }
