@@ -30,13 +30,7 @@ class GoalManager(val goalBox: Box<Goal>) {
         return Observable.just(goals)
     }
 
-    fun storeGoalForToday(goal: Goal) {
-        goal.date = Date().formatToDay()
-        goalBox.put(goal)
-    }
-
-    fun storeGoalForTomorrow(goal: Goal) {
-        goal.date = Date().getTomorrowsDate().formatToDay()
+    fun storeGoal(goal: Goal) {
         goalBox.put(goal)
     }
 }

@@ -23,6 +23,6 @@ class DateUtil {
     val MILLISECONDS_IN_DAY =  MILLISECONDS_IN_HOUR * 24
 
     val dateFormat by lazy {
-        SimpleDateFormat("yyyyy-mm-dd", Locale.US)
+        SimpleDateFormat("yyyyy-MM-dd", Locale.US)
     }
 }

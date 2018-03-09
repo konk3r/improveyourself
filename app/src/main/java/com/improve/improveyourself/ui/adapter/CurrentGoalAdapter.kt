@@ -10,7 +10,7 @@ import com.improve.improveyourself.data.model.Goal
 /**
  * Created by konk3r on 3/8/18.
  */
-class GoalAdapter: RecyclerView.Adapter<GoalViewHolder>() {
+class CurrentGoalAdapter : RecyclerView.Adapter<GoalViewHolder>() {
 
     private var list: MutableList<Goal> = ArrayList()
 

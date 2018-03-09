@@ -12,9 +12,11 @@ import com.improve.improveyourself.modules.MainModule
 import com.improve.improveyourself.ui.ImproveApp
 import com.improve.improveyourself.ui.controller.CreateGoalController
 import com.improve.improveyourself.ui.controller.MainController
+import com.improve.improveyourself.ui.controller.TodaysGoalsController
 import com.improve.improveyourself.ui.controller.TomorrowsGoalsController
 import com.improve.improveyourself.ui.navigation.MainRouter
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 class MainActivity : AppCompatActivity(), MainRouter {
 
@@ -39,6 +41,13 @@ class MainActivity : AppCompatActivity(), MainRouter {
         super.onBackPressed()
     }
 
+    override fun launchTodaysGoals() {
+        router.pushController(RouterTransaction.with(TodaysGoalsController())
+                .pushChangeHandler(FadeChangeHandler())
+                .popChangeHandler(FadeChangeHandler())
+        )
+    }
+
     override fun launchTomorrowsGoals() {
         router.pushController(RouterTransaction.with(TomorrowsGoalsController())
                 .pushChangeHandler(FadeChangeHandler())
@@ -46,8 +55,8 @@ class MainActivity : AppCompatActivity(), MainRouter {
         )
     }
 
-    override fun launchNewGoal() {
-        router.pushController(RouterTransaction.with(CreateGoalController())
+    override fun launchNewGoal(date: Date) {
+        router.pushController(RouterTransaction.with(CreateGoalController(date))
                 .pushChangeHandler(FadeChangeHandler())
                 .popChangeHandler(FadeChangeHandler())
         )

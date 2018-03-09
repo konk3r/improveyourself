@@ -11,6 +11,8 @@ import com.improve.improveyourself.ui.activity.MainActivity
 import com.improve.improveyourself.ui.navigation.MainRouter
 import com.improve.improveyourself.ui.view.CreateGoalView
 import com.improve.improveyourself.ui.view.CreateGoalViewImpl
+import com.improve.improveyourself.util.formatToDay
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -18,7 +20,7 @@ import javax.inject.Named
  * Created by konk3r on 2/7/18.
  */
 
-class CreateGoalController : Controller() {
+class CreateGoalController(val date: Date) : Controller() {
 
     val component by lazy { (activity as MainActivity).component }
     private lateinit var createGoalView: CreateGoalView
@@ -26,8 +28,10 @@ class CreateGoalController : Controller() {
     @Inject lateinit var mainRouter: MainRouter
     @field:[Inject Named("goal_types")] internal lateinit var types: MutableList<String>
 
+    constructor () : this(Date())
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
-        val view = inflater.inflate(R.layout.view_create_goal, container, false)
+        val view = inflater.inflate(R.layout.view_goal_list, container, false)
         component.inject(this)
         createGoalView = CreateGoalViewImpl(view, this)
         createGoalView.setGoalTypes(types)
@@ -41,7 +45,7 @@ class CreateGoalController : Controller() {
         if(title.isEmpty()) {
             createGoalView.displayGoalError()
         } else {
-            goalManager.storeGoalForTomorrow(Goal(type, title, steps))
+            goalManager.storeGoal(Goal(type, title, date.formatToDay(), steps))
             mainRouter.goBack()
         }
     }
