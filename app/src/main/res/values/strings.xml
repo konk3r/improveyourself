@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Improve Yourself</string>
+
+    <string name="main_todays_goals">Today\'s\nGoals</string>
+    <string name="main_tomorrows_goals">Tomorrow\'s Goals</string>
+    <string name="main_goals_met">Goals Met:</string>
+    <string name="main_check_in_time">Daily Check In Time:</string>
+    <string name="main_goal_set_time">Daily Goal Set Time:</string>
+    <string name="main_click_to_set">click to set</string>
+</resources>
