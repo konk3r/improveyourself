@@ -21,5 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
-        app:fabSize="normal" />
+        app:srcCompat="@drawable/ic_add_white_24dp"
+        app:fabSize="normal"
+        />
 </android.support.design.widget.CoordinatorLayout>

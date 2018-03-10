@@ -5,7 +5,7 @@ import android.widget.ArrayAdapter
 import com.improve.improveyourself.R
 import com.improve.improveyourself.ui.controller.CreateGoalController
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.view_goal_list.*
+import kotlinx.android.synthetic.main.view_create_goal.*
 
 /**
  * Created by konk3r on 2/11/18.

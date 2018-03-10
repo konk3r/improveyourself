@@ -11,7 +11,6 @@ import com.improve.improveyourself.modules.TabContainerComponent
 import com.improve.improveyourself.ui.navigation.MainRouter
 import com.improve.improveyourself.ui.view.CreateGoalView
 import com.improve.improveyourself.ui.view.CreateGoalViewImpl
-import com.improve.improveyourself.util.getYesterdaysDate
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
@@ -31,7 +30,7 @@ class CreateGoalController(val date: Date, var component: TabContainerComponent?
     constructor () : this(Date(), null)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
-        val view = inflater.inflate(R.layout.view_goal_list, container, false)
+        val view = inflater.inflate(R.layout.view_create_goal, container, false)
         component!!.inject(this)
         createGoalView = CreateGoalViewImpl(view, this)
         createGoalView.setGoalTypes(types)
@@ -46,7 +45,7 @@ class CreateGoalController(val date: Date, var component: TabContainerComponent?
         if (title.isEmpty()) {
             createGoalView.displayGoalError()
         } else {
-            goalManager.storeGoal(Goal(type, title, date.getYesterdaysDate(), steps))
+            goalManager.storeGoal(Goal(type, title, date, steps))
             mainRouter.goBack()
         }
     }
