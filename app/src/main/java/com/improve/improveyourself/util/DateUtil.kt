@@ -6,10 +6,16 @@ import java.util.*
 fun Date.getTomorrowsDate(): Date {
     val currentTime = time
     val tomorrowsDate = Date(currentTime + DateUtil().MILLISECONDS_IN_DAY)
-    return tomorrowsDate.roundDateToDate()
+    return tomorrowsDate.roundDateToDay()
 }
 
-fun Date.roundDateToDate() = DateUtil().dateFormat.parse(formatToDay())
+fun Date.getYesterdaysDate(): Date {
+    val currentTime = time
+    val tomorrowsDate = Date(currentTime - DateUtil().MILLISECONDS_IN_DAY)
+    return tomorrowsDate.roundDateToDay()
+}
+
+fun Date.roundDateToDay() = DateUtil().dateFormat.parse(formatToDay())
 
 fun Date.formatToDay() = DateUtil().dateFormat.format(this)
 

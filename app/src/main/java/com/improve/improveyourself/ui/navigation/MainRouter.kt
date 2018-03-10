@@ -1,10 +1,13 @@
 package com.improve.improveyourself.ui.navigation
 
+import java.util.*
+
 /**
  * Created by konk3r on 3/8/18.
  */
 interface MainRouter {
-    fun launchNewGoal(date: String)
+    fun launchNewGoal(date: Date)
     fun goBack()
-    fun launchTodaysGoals()
+    fun hideActionBar()
+    fun showActionBar()
 }

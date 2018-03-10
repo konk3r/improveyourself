@@ -16,7 +16,7 @@ import com.improve.improveyourself.ui.activity.MainActivity
 import com.improve.improveyourself.ui.navigation.MainRouter
 import com.improve.improveyourself.ui.view.TabContainerView
 import com.improve.improveyourself.ui.view.TabContainerViewImpl
-import com.improve.improveyourself.util.formatToDay
+import com.improve.improveyourself.util.roundDateToDay
 import java.util.*
 
 /**
@@ -50,14 +50,10 @@ class TabContainerController() : Controller(), MainRouter {
 
         val bottomNav = (view.findViewById(R.id.main_bottom_navigation) as BottomNavigationView)
         if (!bottomNavRouter.hasRootController()) {
-            val controller = DashboardController()
+            val controller = DashboardController(component)
             bottomNavRouter.setRoot(RouterTransaction.with(controller));
 
             bottomNav.getMenu().getItem((DASHBOARD_POSITION)).isChecked = true
-        }
-
-        if (bottomNav.selectedItemId == DASHBOARD_POSITION) {
-            supportActionBar.hide()
         }
     }
 
@@ -65,6 +61,7 @@ class TabContainerController() : Controller(), MainRouter {
         val bottomNavBar = view.findViewById(R.id.main_bottom_navigation) as BottomNavigationView
         bottomNavBar.setOnNavigationItemSelectedListener({ item ->
             when (item.itemId) {
+                R.id.action_history -> launchHistory()
                 R.id.action_dashboard -> launchDashboard()
                 R.id.action_goals -> launchTodaysGoals()
             }
@@ -78,20 +75,23 @@ class TabContainerController() : Controller(), MainRouter {
         super.onDestroyView(view)
     }
 
-    private fun launchDashboard() {
-        supportActionBar.hide()
-        val backstack = arrayListOf(RouterTransaction.with(DashboardController()))
+    private fun launchHistory() {
+        val backstack = arrayListOf(RouterTransaction.with(GoalHistoryController(component)))
         bottomNavRouter.setBackstack(backstack, null)
     }
 
-    override fun launchTodaysGoals() {
-        supportActionBar.show()
-        val today = Date().formatToDay()
+    private fun launchDashboard() {
+        val backstack = arrayListOf(RouterTransaction.with(DashboardController(component)))
+        bottomNavRouter.setBackstack(backstack, null)
+    }
+
+    fun launchTodaysGoals() {
+        val today = Date().roundDateToDay()
         val backstack = arrayListOf(RouterTransaction.with(GoalListController(today, component)))
         bottomNavRouter.setBackstack(backstack, null)
     }
 
-    override fun launchNewGoal(date: String) {
+    override fun launchNewGoal(date: Date) {
         bottomNavRouter.pushController(RouterTransaction.with(CreateGoalController(date, component)))
     }
 
@@ -99,6 +99,14 @@ class TabContainerController() : Controller(), MainRouter {
         if (!bottomNavRouter.popCurrentController()) {
             router.popCurrentController()
         }
+    }
+
+    override fun hideActionBar() {
+        supportActionBar.hide()
+    }
+
+    override fun showActionBar() {
+        supportActionBar.show()
     }
 
 }

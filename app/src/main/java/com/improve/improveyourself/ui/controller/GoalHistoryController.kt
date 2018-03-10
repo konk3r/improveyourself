@@ -13,14 +13,13 @@ import com.improve.improveyourself.ui.navigation.FabListener
 import com.improve.improveyourself.ui.navigation.MainRouter
 import com.improve.improveyourself.ui.view.GoalListView
 import io.reactivex.android.schedulers.AndroidSchedulers
-import java.util.*
 import javax.inject.Inject
 
 /**
  * Created by konk3r on 2/7/18.
  */
 
-class GoalListController(val date: Date, var parentComponent: TabContainerComponent?) :
+class GoalHistoryController(var parentComponent: TabContainerComponent?) :
         Controller(), FabListener {
 
     private lateinit var listComponent: GoalListComponent
@@ -28,7 +27,7 @@ class GoalListController(val date: Date, var parentComponent: TabContainerCompon
     @Inject lateinit var goalManager: GoalManager
     @Inject lateinit var mainRouter: MainRouter
 
-    constructor(): this(Date(), null)
+    constructor(): this(null)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.view_goals, container, false)
@@ -45,13 +44,13 @@ class GoalListController(val date: Date, var parentComponent: TabContainerCompon
     }
 
     private fun loadGoals() {
-        goalManager.loadGoalsFor(date)
+        goalManager.loadPreviousGoals()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({list -> goalsView.displayList(list)})
     }
 
     override fun onFabClicked() {
-        mainRouter.launchNewGoal(date)
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 }

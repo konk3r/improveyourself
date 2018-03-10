@@ -6,86 +6,258 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".ui.activity.MainActivity"
     >
 
-    <android.support.constraint.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:context=".ui.activity.MainActivity"
         >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_alignTop="@id/main_text_title"
+            android:layout_alignBottom="@id/main_text_description"
+            />
 
         <TextView
             android:id="@+id/main_text_title"
             style="@style/TextAppearance.AppCompat.Display1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Goals"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="4dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:textColor="?android:textColorPrimary"
+            android:text="@string/main_title"
+            />
+
+        <TextView
+            android:id="@+id/main_text_description"
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="12dp"
+            android:layout_below="@id/main_text_title"
+            android:textColor="?android:textColorPrimary"
+            android:textStyle="italic"
+            android:text="Improve you life with little with small changes, one day at a time"
+            />
+
+        <ImageView
+            android:id="@+id/main_icon_goals_met"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="12dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/main_text_goals_met"
+            app:srcCompat="@drawable/ic_done_all_black_24dp"
+            />
 
         <TextView
             android:id="@+id/main_text_goals_met"
-            style="@style/TextAppearance.AppCompat.Subhead"
+            style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:layout_below="@id/main_text_description"
+            android:layout_toEndOf="@id/main_icon_goals_met"
             android:text="@string/main_goals_met"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/main_text_title"/>
+            />
 
         <TextView
             android:id="@+id/main_input_goals_met"
+            style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_alignTop="@+id/main_text_goals_met"
+            android:layout_toEndOf="@id/main_text_goals_met"
             android:text="0"
-            app:layout_constraintBaseline_toBaselineOf="@+id/main_text_goals_met"
-            app:layout_constraintStart_toEndOf="@+id/main_text_goals_met"/>
+            />
 
-        <TextView
-            android:id="@+id/main_text_check_in"
-            style="@style/TextAppearance.AppCompat.Subhead"
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.CardView
+            android:id="@+id/main_check_in_card"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/main_check_in_time"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/main_text_goals_met"/>
+            android:layout_margin="16dp"
+            android:layout_below="@id/main_text_goals_met"
+            >
 
-        <TextView
-            android:id="@+id/main_input_check_in_time"
-            android:layout_width="wrap_content"
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <ImageView
+                    android:id="@+id/main_icon_check_in"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/main_text_check_in"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/main_text_check_in"
+                    app:srcCompat="@drawable/ic_add_check_black_24dp"/>
+
+                <TextView
+                    android:id="@+id/main_text_check_in"
+                    style="@style/TextAppearance.AppCompat.Subhead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/main_check_in_time"
+                    app:layout_constraintStart_toEndOf="@+id/main_icon_check_in"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/main_input_check_in_time"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/main_click_to_set"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/main_check_in_description"/>
+
+                <TextView
+                    android:id="@+id/main_check_in_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/main_check_in_description"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/main_text_check_in"/>
+
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/main_set_goals_card"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/main_click_to_set"
-            app:layout_constraintBaseline_toBaselineOf="@+id/main_text_check_in"
-            app:layout_constraintStart_toEndOf="@+id/main_text_check_in"/>
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:layout_below="@id/main_check_in_card"
+            >
 
-        <TextView
-            android:id="@+id/main_text_goal_set"
-            style="@style/TextAppearance.AppCompat.Subhead"
-            android:layout_width="wrap_content"
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <ImageView
+                    android:id="@+id/main_icon_set_goal"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="7dp"
+                    android:padding="2dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/main_text_goal_set"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/main_text_goal_set"
+                    app:srcCompat="@drawable/ic_alarm_on_black_24dp"/>
+
+                <TextView
+                    android:id="@+id/main_text_goal_set"
+                    style="@style/TextAppearance.AppCompat.Subhead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/main_goal_set_time"
+                    app:layout_constraintStart_toEndOf="@+id/main_icon_set_goal"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/main_input_goal_set_time"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/main_click_to_set"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/main_set_goals_description"/>
+
+                <TextView
+                    android:id="@+id/main_set_goals_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/main_set_goals_description"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/main_text_goal_set"/>
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/main_goal_set_time"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/main_text_check_in"/>
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:layout_below="@id/main_set_goals_card"
+            app:cardBackgroundColor="@color/colorPrimaryLight"
+            >
 
-        <TextView
-            android:id="@+id/main_input_goal_set_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/main_click_to_set"
-            app:layout_constraintBaseline_toBaselineOf="@+id/main_text_goal_set"
-            app:layout_constraintStart_toEndOf="@+id/main_text_goal_set"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:orientation="vertical">
 
-    </android.support.constraint.ConstraintLayout>
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Headline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:textColor="@color/off_black"
+                    android:text="Our Theory"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height=".5dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/off_black"
+                    />
+
+                <TextView
+                    style="@style/Base.TextAppearance.AppCompat.Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/off_black"
+                    android:text="No matter what our lives are like, everybody has room for improvement. Whether you are struggling with depression/anxiety or if there is just some change you'd like to see in your life, it's easy to postpone indefinitely what we need to do. Our goal is to push people to make small changes in their lives to improve and help their life go in the direction they want.\n\nA goal should be simple enough that it is feasable to accomplish in a day without being discouraged, but big enough that it challenges you. We recommend setting two goals every day, one to push yourself to be more productive (or maybe just productive in a way you usually aren't), and one to do something extra for yourself. Take it as you will, feel free to set whatever fits your life to get you where you want to go."
+                    />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
 </ScrollView>

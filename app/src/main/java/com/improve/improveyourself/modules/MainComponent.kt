@@ -1,6 +1,5 @@
 package com.improve.improveyourself.modules
 
-import com.improve.improveyourself.ui.controller.DashboardController
 import dagger.Subcomponent
 import javax.inject.Singleton
 
@@ -10,7 +9,5 @@ import javax.inject.Singleton
 @Singleton
 @Subcomponent(modules = arrayOf(MainModule::class))
 interface MainComponent {
-    fun inject(controller: DashboardController)
-
     fun plus(tabContainerModule: TabContainerModule): TabContainerComponent
 }
