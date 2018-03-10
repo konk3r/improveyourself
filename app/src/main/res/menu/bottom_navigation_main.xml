@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <item
+        android:id="@+id/action_history"
+        android:enabled="true"
+        android:icon="@drawable/ic_history_black_24dp"
+        android:title="History"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_dashboard"
+        android:enabled="true"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:title="Dashboard"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_goals"
+        android:enabled="true"
+        android:icon="@drawable/ic_add_check_black_24dp"
+        android:title="Goals"
+        app:showAsAction="ifRoom" />
+
+</menu>

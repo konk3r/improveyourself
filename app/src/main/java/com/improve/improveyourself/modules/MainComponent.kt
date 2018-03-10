@@ -1,7 +1,6 @@
 package com.improve.improveyourself.modules
 
-import com.improve.improveyourself.ui.controller.CreateGoalController
-import com.improve.improveyourself.ui.controller.MainController
+import com.improve.improveyourself.ui.controller.DashboardController
 import dagger.Subcomponent
 import javax.inject.Singleton
 
@@ -11,8 +10,7 @@ import javax.inject.Singleton
 @Singleton
 @Subcomponent(modules = arrayOf(MainModule::class))
 interface MainComponent {
-    fun inject(controller: MainController)
-    fun inject(controller: CreateGoalController)
+    fun inject(controller: DashboardController)
 
-    fun plus(goalListModule: GoalListModule): GoalListComponent
+    fun plus(tabContainerModule: TabContainerModule): TabContainerComponent
 }

@@ -1,7 +1,6 @@
 package com.improve.improveyourself.modules
 
 import com.improve.improveyourself.ui.activity.MainActivity
-import com.improve.improveyourself.ui.navigation.MainRouter
 import dagger.Module
 import dagger.Provides
 
@@ -10,7 +9,5 @@ import dagger.Provides
  */
 @Module
 class MainModule(val activity: MainActivity) {
-    @Provides fun provideMainRouter(): MainRouter {
-        return activity
-    }
+    @Provides fun provideActivity() = activity
 }
