@@ -19,6 +19,15 @@ fun Date.roundDateToDay() = DateUtil().dateFormat.parse(formatToDay())
 
 fun Date.formatToDay() = DateUtil().dateFormat.format(this)
 
+fun Date.nextInstanceOfTime(hours: Int, minutes: Int): Date {
+    val calendar = Calendar.getInstance()
+    calendar.timeInMillis = System.currentTimeMillis()
+    calendar.set(Calendar.HOUR_OF_DAY, hours)
+    calendar.set(Calendar.MINUTE, minutes)
+    calendar.set(Calendar.SECOND, 0)
+    return Date(calendar.timeInMillis)
+}
+
 /**
  * Created by konk3r on 3/9/18.
  */

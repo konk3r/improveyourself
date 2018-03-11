@@ -1,12 +1,15 @@
 package com.improve.improveyourself.modules
 
+import android.content.Context
+import android.content.SharedPreferences
+import com.improve.improveyourself.data.PreferenceManager
 import com.improve.improveyourself.data.model.Goal
 import com.improve.improveyourself.data.model.MyObjectBox
 import com.improve.improveyourself.ui.ImproveApp
 import dagger.Module
 import dagger.Provides
-import io.objectbox.Box
 import io.objectbox.BoxStore
+import javax.inject.Named
 import javax.inject.Singleton
 
 /**
@@ -16,12 +19,26 @@ import javax.inject.Singleton
 class LocalDataModule() {
     @Provides
     @Singleton
-    fun provideBoxStore(app: ImproveApp): BoxStore {
-        return MyObjectBox.builder().androidContext(app).build();
+    fun provideBoxStore(app: ImproveApp) = MyObjectBox.builder().androidContext(app).build()
+
+    @Provides
+    fun provideGoalBox(boxStore: BoxStore) = boxStore.boxFor(Goal::class.java)
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(app: ImproveApp,
+                                 @Named("key_preferences") key: String): SharedPreferences? {
+        return app.getSharedPreferences(key, Context.MODE_PRIVATE)
     }
 
     @Provides
-    fun provideGoalBox(boxStore: BoxStore): Box<Goal> {
-        return boxStore.boxFor(Goal::class.java)
+    @Singleton
+    fun providePreferenceManager(preferences: SharedPreferences): PreferenceManager {
+        return PreferenceManager(preferences)
     }
+
+    @Provides
+    @Singleton
+    @Named("key_preferences")
+    fun provideSharedPreferencesKey() = "key_improve_shared_preferences"
 }

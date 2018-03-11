@@ -7,4 +7,6 @@ interface DashboardView {
     fun hideGoalCount()
     fun displayGoalCount()
     fun setGoalCount(goalsCompleted: Long)
+    fun displayCheckInDialog()
+    fun displaySetGoalsDialog()
 }

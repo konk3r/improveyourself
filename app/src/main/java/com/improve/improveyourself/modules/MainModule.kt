@@ -10,4 +10,5 @@ import dagger.Provides
 @Module
 class MainModule(val activity: MainActivity) {
     @Provides fun provideActivity() = activity
+    @Provides fun provideSupportFragmentManager() = activity.supportFragmentManager
 }
