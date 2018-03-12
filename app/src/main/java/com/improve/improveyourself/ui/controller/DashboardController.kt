@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import com.bluelinelabs.conductor.Controller
 import com.improve.improveyourself.R
 import com.improve.improveyourself.data.GoalManager
+import com.improve.improveyourself.data.TimePair
 import com.improve.improveyourself.modules.TabContainerComponent
 import com.improve.improveyourself.ui.navigation.MainRouter
 import com.improve.improveyourself.ui.notification.NotificationAlarmManager
@@ -27,8 +28,8 @@ class DashboardController(var component: TabContainerComponent? = null) : Contro
     @Inject lateinit var goalManager: GoalManager
     @Inject lateinit var mainRouter: MainRouter
     @Inject lateinit var notificationManager: NotificationAlarmManager
-    var checkInObservable: Relay<Pair<Int, Int>>? = null
-    var setGoalsObservable: Relay<Pair<Int, Int>>? = null
+    var checkInObservable: Relay<TimePair>? = null
+    var setGoalsObservable: Relay<TimePair>? = null
     var disposables = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
@@ -52,14 +53,14 @@ class DashboardController(var component: TabContainerComponent? = null) : Contro
     }
 
     private fun setupObservables() {
-        checkInObservable = PublishRelay.create<Pair<Int, Int>>()
+        checkInObservable = PublishRelay.create<TimePair>()
         disposables.add(checkInObservable!!.observeOn(AndroidSchedulers.mainThread())
-                .subscribe({pair -> notificationManager.setCheckInTime(pair.first, pair.second)})
+                .subscribe({pair -> notificationManager.setCheckInTime(pair.hour, pair.minutes)})
         )
 
-        setGoalsObservable = PublishRelay.create<Pair<Int, Int>>()
+        setGoalsObservable = PublishRelay.create<TimePair>()
         disposables.add(setGoalsObservable!!.observeOn(AndroidSchedulers.mainThread())
-                .subscribe({pair -> notificationManager.setSetGoalsTime(pair.first, pair.second)})
+                .subscribe({pair -> notificationManager.setSetGoalsTime(pair.hour, pair.minutes)})
         )
     }
 
@@ -79,7 +80,7 @@ class DashboardController(var component: TabContainerComponent? = null) : Contro
     }
 
     fun setCheckInTime(hours: Int, minutes: Int) {
-        setGoalsObservable!!.accept(Pair(hours, minutes))
+        checkInObservable!!.accept(TimePair(hours, minutes))
     }
 
     fun onSetSetGoalsClicked() {
@@ -87,6 +88,6 @@ class DashboardController(var component: TabContainerComponent? = null) : Contro
     }
 
     fun setSetGoalsTime(hours: Int, minutes: Int) {
-        setGoalsObservable!!.accept(Pair(hours, minutes))
+        setGoalsObservable!!.accept(TimePair(hours, minutes))
     }
 }

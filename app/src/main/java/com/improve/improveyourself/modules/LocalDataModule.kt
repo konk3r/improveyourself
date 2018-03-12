@@ -2,6 +2,7 @@ package com.improve.improveyourself.modules
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.google.gson.Gson
 import com.improve.improveyourself.data.PreferenceManager
 import com.improve.improveyourself.data.model.Goal
 import com.improve.improveyourself.data.model.MyObjectBox
@@ -26,15 +27,19 @@ class LocalDataModule() {
 
     @Provides
     @Singleton
+    fun provideGson() = Gson()
+
+    @Provides
+    @Singleton
     fun provideSharedPreferences(app: ImproveApp,
-                                 @Named("key_preferences") key: String): SharedPreferences? {
+                                 @Named("key_preferences") key: String): SharedPreferences {
         return app.getSharedPreferences(key, Context.MODE_PRIVATE)
     }
 
     @Provides
     @Singleton
-    fun providePreferenceManager(preferences: SharedPreferences): PreferenceManager {
-        return PreferenceManager(preferences)
+    fun providePreferenceManager(preferences: SharedPreferences, gson: Gson): PreferenceManager {
+        return PreferenceManager(preferences, gson)
     }
 
     @Provides

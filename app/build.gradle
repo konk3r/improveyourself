@@ -47,6 +47,8 @@ dependencies {
     kapt "io.objectbox:objectbox-processor:$objectboxVersion"
     implementation "io.objectbox:objectbox-kotlin:$objectboxVersion"
 
+    implementation 'com.google.code.gson:gson:2.8.2'
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:27.1.0'

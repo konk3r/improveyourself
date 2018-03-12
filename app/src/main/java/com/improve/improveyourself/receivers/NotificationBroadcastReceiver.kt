@@ -8,6 +8,7 @@ import android.content.Intent
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import com.improve.improveyourself.R
+import com.improve.improveyourself.data.PreferenceManager
 import com.improve.improveyourself.ui.ImproveApp
 import com.improve.improveyourself.ui.activity.MainActivity
 import com.improve.improveyourself.ui.notification.NotificationAlarmManager.IDs.GOAL_CHANNEL_ID
@@ -18,8 +19,8 @@ import javax.inject.Inject
  */
 class NotificationBroadcastReceiver : BroadcastReceiver() {
 
-    @Inject
-    lateinit var notificationManager: NotificationManagerCompat
+    @Inject lateinit var notificationManager: NotificationManagerCompat
+    @Inject lateinit var preferenceManager: PreferenceManager
 
     override fun onReceive(context: Context?, intent: Intent?) {
         val app = context?.applicationContext as ImproveApp
@@ -27,15 +28,31 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
 
         when (intent?.getIntExtra(TYPE, NO_ID_SET)) {
             CHECK_IN_ID -> {
-                val notification = buildCheckInNotification(context)
-                notificationManager.notify(CHECK_IN_ID, notification)
+                sendCheckInNotification(context)
             }
 
             SET_GOAL_ID -> {
-                val notification = buildSetGoalNotification(context)
-                notificationManager.notify(SET_GOAL_ID, notification)
+                sendSetGoalNotification(context)
             }
         }
+    }
+
+    private fun sendCheckInNotification(context: Context) {
+        if (!preferenceManager.checkInNotificationsAreEnabled()) {
+            return
+        }
+
+        val notification = buildCheckInNotification(context)
+        notificationManager.notify(CHECK_IN_ID, notification)
+    }
+
+    private fun sendSetGoalNotification(context: Context) {
+        if (!preferenceManager.setGoalsNotificationsAreEnabled()) {
+            return
+        }
+
+        val notification = buildSetGoalNotification(context)
+        notificationManager.notify(SET_GOAL_ID, notification)
     }
 
     private fun buildCheckInNotification(context: Context?): Notification {

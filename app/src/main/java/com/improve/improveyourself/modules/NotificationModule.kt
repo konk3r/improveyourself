@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import android.app.NotificationManager
 import android.content.Context
 import android.support.v4.app.NotificationManagerCompat
+import com.improve.improveyourself.data.PreferenceManager
 import com.improve.improveyourself.ui.ImproveApp
 import com.improve.improveyourself.ui.notification.NotificationAlarmManager
 import dagger.Module
@@ -19,8 +20,9 @@ class NotificationModule() {
     @Singleton
     fun provideNotificationAlarmManager(app: ImproveApp,
                                         alarmManager: AlarmManager,
-                                        notificationManager: NotificationManager): NotificationAlarmManager {
-        return NotificationAlarmManager(app, alarmManager, notificationManager)
+                                        notificationManager: NotificationManager,
+                                        preferenceManager: PreferenceManager): NotificationAlarmManager {
+        return NotificationAlarmManager(app, alarmManager, notificationManager, preferenceManager)
     }
 
     @Provides
