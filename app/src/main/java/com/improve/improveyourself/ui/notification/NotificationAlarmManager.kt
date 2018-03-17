@@ -16,7 +16,6 @@ import com.improve.improveyourself.ui.ImproveApp
 import com.improve.improveyourself.util.nextInstanceOfTime
 import java.util.*
 
-
 /**
  * Created by konk3r on 3/10/18.
  */
@@ -45,7 +44,7 @@ class NotificationAlarmManager( val app: ImproveApp,
         AlarmManagerCompat.setExact(alarmManager,
                 AlarmManager.RTC_WAKEUP,
                 eventTime.time,
-                createCheckInNotificationIntent(app))
+                createCheckInNotificationIntent())
     }
 
     fun setSetGoalsTime(hours: Int, minutes: Int) {
@@ -53,24 +52,26 @@ class NotificationAlarmManager( val app: ImproveApp,
         scheduleNextSetGoalsAlarm()
     }
 
-    private fun scheduleNextSetGoalsAlarm() {
+    fun scheduleNextSetGoalsAlarm() {
         val timePair = preferenceManager.getSetGoalsNotificationsTime()
         val eventTime = Date().nextInstanceOfTime(timePair.hour, timePair.minutes)
         AlarmManagerCompat.setExact(alarmManager,
                 AlarmManager.RTC_WAKEUP,
                 eventTime.time,
-                createSetGoalNotificationIntent(app))
+                createSetGoalNotificationIntent())
     }
 
-    private fun createCheckInNotificationIntent(app: ImproveApp): PendingIntent {
+    private fun createCheckInNotificationIntent(): PendingIntent {
         val alarmIntent = Intent(this.app, NotificationBroadcastReceiver::class.java)
         alarmIntent.putExtra(NotificationBroadcastReceiver.TYPE, CHECK_IN_ID)
+        alarmIntent.action = NotificationBroadcastReceiver.ACTION_SEND_NOTIFICATION
         return PendingIntent.getBroadcast(this.app, CHECK_IN_ID, alarmIntent,  PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
-    private fun createSetGoalNotificationIntent(app: ImproveApp): PendingIntent {
+    private fun createSetGoalNotificationIntent(): PendingIntent {
         val alarmIntent = Intent(this.app, NotificationBroadcastReceiver::class.java)
         alarmIntent.putExtra(NotificationBroadcastReceiver.TYPE, SET_GOAL_ID)
+        alarmIntent.action = NotificationBroadcastReceiver.ACTION_SEND_NOTIFICATION
         return PendingIntent.getBroadcast(this.app, SET_GOAL_ID, alarmIntent,  PendingIntent.FLAG_UPDATE_CURRENT)
     }
 

@@ -23,6 +23,6 @@ class GoalModule() {
     @Singleton
     @Named("goal_types")
     fun provideGoalTypes(): MutableList<String> {
-        return arrayListOf(Goal.PRODUCTIVE, Goal.RELAXATION) as MutableList<String>
+        return arrayListOf(Goal.PRODUCTIVE, Goal.RELAXATION)
     }
 }

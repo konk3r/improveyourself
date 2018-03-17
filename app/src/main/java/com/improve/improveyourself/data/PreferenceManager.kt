@@ -28,7 +28,10 @@ class PreferenceManager(val preferences: SharedPreferences, val gson: Gson) {
 
     fun getCheckInNotificationsTime(): TimePair {
         val timeJson = preferences.getString(CHECK_IN_NOTIFICATION_TIME_KEY, null)
-        return gson.fromJson(timeJson, TimePair::class.java)
+        return if (timeJson == null)
+            TimePair(12, 0)
+        else
+            gson.fromJson(timeJson, TimePair::class.java)
     }
 
     fun enableSetGoalsNotifications(timePair: TimePair) {
@@ -44,6 +47,22 @@ class PreferenceManager(val preferences: SharedPreferences, val gson: Gson) {
 
     fun getSetGoalsNotificationsTime(): TimePair {
         val timeJson = preferences.getString(SET_GOALS_NOTIFICATION_TIME_KEY, null)
-        return gson.fromJson(timeJson, TimePair::class.java)
+        return if (timeJson == null)
+            TimePair(12, 0)
+        else
+            gson.fromJson(timeJson, TimePair::class.java)
     }
+
+    fun disableCheckInNotifications() {
+        preferences.edit()
+                .putBoolean(CHECK_IN_NOTIFICATIONS_ENABLED_KEY, false)
+                .apply()
+    }
+
+    fun disableSetGoalsNotifications() {
+        preferences.edit()
+                .putBoolean(SET_GOALS_NOTIFICATIONS_ENABLED_KEY, false)
+                .apply()
+    }
+
 }

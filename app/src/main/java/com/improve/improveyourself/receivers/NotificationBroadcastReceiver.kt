@@ -5,12 +5,14 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.ACTION_BOOT_COMPLETED
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import com.improve.improveyourself.R
 import com.improve.improveyourself.data.PreferenceManager
 import com.improve.improveyourself.ui.ImproveApp
 import com.improve.improveyourself.ui.activity.MainActivity
+import com.improve.improveyourself.ui.notification.NotificationAlarmManager
 import com.improve.improveyourself.ui.notification.NotificationAlarmManager.IDs.GOAL_CHANNEL_ID
 import javax.inject.Inject
 
@@ -21,44 +23,69 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
 
     @Inject lateinit var notificationManager: NotificationManagerCompat
     @Inject lateinit var preferenceManager: PreferenceManager
+    @Inject lateinit var notificationAlarmManager: NotificationAlarmManager
+    lateinit var app: ImproveApp
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        val app = context?.applicationContext as ImproveApp
+        app = context?.applicationContext as ImproveApp
         app.component.inject(this)
 
-        when (intent?.getIntExtra(TYPE, NO_ID_SET)) {
+        if (intent?.action == null) {
+            return
+        }
+
+        when (intent.action) {
+            ACTION_BOOT_COMPLETED -> restoreAlarms()
+            ACTION_SEND_NOTIFICATION -> sendNotification(intent.getIntExtra(TYPE, NO_ID_SET))
+        }
+    }
+
+    private fun restoreAlarms() {
+        if (preferenceManager.checkInNotificationsAreEnabled()) {
+            notificationAlarmManager.scheduleNextCheckInAlarm()
+        }
+
+        if (preferenceManager.setGoalsNotificationsAreEnabled()) {
+            notificationAlarmManager.scheduleNextSetGoalsAlarm()
+        }
+    }
+
+    private fun sendNotification(type: Int) {
+        when (type) {
             CHECK_IN_ID -> {
-                sendCheckInNotification(context)
+                sendCheckInNotification()
             }
 
             SET_GOAL_ID -> {
-                sendSetGoalNotification(context)
+                sendSetGoalNotification()
             }
         }
     }
 
-    private fun sendCheckInNotification(context: Context) {
+    private fun sendCheckInNotification() {
         if (!preferenceManager.checkInNotificationsAreEnabled()) {
             return
         }
 
-        val notification = buildCheckInNotification(context)
+        val notification = buildCheckInNotification()
         notificationManager.notify(CHECK_IN_ID, notification)
+        notificationAlarmManager.scheduleNextCheckInAlarm()
     }
 
-    private fun sendSetGoalNotification(context: Context) {
+    private fun sendSetGoalNotification() {
         if (!preferenceManager.setGoalsNotificationsAreEnabled()) {
             return
         }
 
-        val notification = buildSetGoalNotification(context)
+        val notification = buildSetGoalNotification()
         notificationManager.notify(SET_GOAL_ID, notification)
+        notificationAlarmManager.scheduleNextSetGoalsAlarm()
     }
 
-    private fun buildCheckInNotification(context: Context?): Notification {
-        val intent = createCheckInPendingIntent(context!!)
+    private fun buildCheckInNotification(): Notification {
+        val intent = createCheckInPendingIntent()
 
-        return NotificationCompat.Builder(context, GOAL_CHANNEL_ID)
+        return NotificationCompat.Builder(app, GOAL_CHANNEL_ID)
                 .setContentTitle("Check in")
                 .setContentText("How did you do yesterday? Check in to go over your goals.")
                 .setContentIntent(intent)
@@ -68,10 +95,10 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
                 .build()
     }
 
-    private fun buildSetGoalNotification(context: Context): Notification {
-        val intent = createSetGoalPendingIntent(context)
+    private fun buildSetGoalNotification(): Notification {
+        val intent = createSetGoalPendingIntent()
 
-        return NotificationCompat.Builder(context, GOAL_CHANNEL_ID)
+        return NotificationCompat.Builder(app, GOAL_CHANNEL_ID)
                 .setContentTitle("Goal time")
                 .setContentText("Now is as good a time as any, set your upcoming goals")
                 .setContentIntent(intent)
@@ -81,14 +108,14 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
                 .build()
     }
 
-    private fun createCheckInPendingIntent(context: Context): PendingIntent {
-        val intent = Intent(context, MainActivity::class.java)
-        return PendingIntent.getActivity(context, CHECK_IN_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    private fun createCheckInPendingIntent(): PendingIntent {
+        val intent = Intent(app, MainActivity::class.java)
+        return PendingIntent.getActivity(app, CHECK_IN_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
-    private fun createSetGoalPendingIntent(context: Context): PendingIntent {
-        val intent = Intent(context, MainActivity::class.java)
-        return PendingIntent.getActivity(context, SET_GOAL_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    private fun createSetGoalPendingIntent(): PendingIntent {
+        val intent = Intent(app, MainActivity::class.java)
+        return PendingIntent.getActivity(app, SET_GOAL_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     companion object values {
@@ -97,5 +124,6 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
         val SET_GOAL_ID = 2
 
         val TYPE = "key_type"
+        val ACTION_SEND_NOTIFICATION = "action_send_notification"
     }
 }

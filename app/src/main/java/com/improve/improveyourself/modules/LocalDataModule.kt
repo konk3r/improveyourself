@@ -9,6 +9,7 @@ import com.improve.improveyourself.data.model.MyObjectBox
 import com.improve.improveyourself.ui.ImproveApp
 import dagger.Module
 import dagger.Provides
+import io.objectbox.Box
 import io.objectbox.BoxStore
 import javax.inject.Named
 import javax.inject.Singleton
@@ -20,10 +21,10 @@ import javax.inject.Singleton
 class LocalDataModule() {
     @Provides
     @Singleton
-    fun provideBoxStore(app: ImproveApp) = MyObjectBox.builder().androidContext(app).build()
+    fun provideBoxStore(app: ImproveApp): BoxStore = MyObjectBox.builder().androidContext(app).build()
 
     @Provides
-    fun provideGoalBox(boxStore: BoxStore) = boxStore.boxFor(Goal::class.java)
+    fun provideGoalBox(boxStore: BoxStore): Box<Goal> = boxStore.boxFor(Goal::class.java)
 
     @Provides
     @Singleton

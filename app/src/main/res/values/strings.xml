@@ -4,8 +4,10 @@
     <string name="main_todays_goals">Today\'s\nGoals</string>
     <string name="main_tomorrows_goals">Tomorrow\'s Goals</string>
     <string name="main_goals_met">Goals Met:</string>
-    <string name="main_check_in_time">Daily Check In Time:</string>
-    <string name="main_goal_set_time">Daily Goal Set Time:</string>
+    <string name="main_check_in_time_unset">Daily Check In Time</string>
+    <string name="main_check_in_time_set">Daily Check In Time:</string>
+    <string name="main_goal_set_time_unset">Daily Goal Set Time</string>
+    <string name="main_goal_set_time_set">Daily Goal Set Time:</string>
     <string name="main_click_to_set">click to set</string>
     <string name="main_check_in_description">Following up on goals is important to keeping up, set a daily time to check in on your goals from the day before</string>
     <string name="main_set_goals_description">Stay on track! Set a daily time to set goals for the following day</string>
