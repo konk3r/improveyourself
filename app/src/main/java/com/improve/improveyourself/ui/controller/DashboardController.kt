@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import com.bluelinelabs.conductor.Controller
 import com.improve.improveyourself.R
 import com.improve.improveyourself.data.GoalManager
-import com.improve.improveyourself.data.PreferenceManager
 import com.improve.improveyourself.data.TimePair
+import com.improve.improveyourself.data.model.NotificationStatus
 import com.improve.improveyourself.modules.TabContainerComponent
 import com.improve.improveyourself.ui.navigation.MainRouter
 import com.improve.improveyourself.ui.notification.NotificationAlarmManager
@@ -30,9 +30,11 @@ class DashboardController(var component: TabContainerComponent? = null) : Contro
     @Inject lateinit var goalManager: GoalManager
     @Inject lateinit var mainRouter: MainRouter
     @Inject lateinit var notificationManager: NotificationAlarmManager
-    @Inject lateinit var prefsManager: PreferenceManager
-    var checkInObservable: Relay<TimePair>? = null
-    var setGoalsObservable: Relay<TimePair>? = null
+    lateinit var checkInClickedObservable: Relay<TimePair>
+    lateinit var setGoalsClickedObservable: Relay<TimePair>
+    lateinit var checkInStatusObservable: Relay<NotificationStatus>
+    lateinit var setGoalsStatusObservable: Relay<NotificationStatus>
+
     var disposables = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
@@ -40,8 +42,6 @@ class DashboardController(var component: TabContainerComponent? = null) : Contro
         component!!.inject(this)
         dashboardView = DashboardViewImpl(view, this)
         setupObservables()
-        updateCheckInTime()
-        updateSetGoalsTime()
 
         return view
     }
@@ -58,16 +58,41 @@ class DashboardController(var component: TabContainerComponent? = null) : Contro
     }
 
     private fun setupObservables() {
-        checkInObservable = PublishRelay.create<TimePair>()
-        setGoalsObservable = PublishRelay.create<TimePair>()
+        checkInClickedObservable = PublishRelay.create<TimePair>()
+        setGoalsClickedObservable = PublishRelay.create<TimePair>()
+        checkInStatusObservable = notificationManager.getCheckInObservable()
+        setGoalsStatusObservable = notificationManager.getSetGoalsObservable()
 
-        disposables.add(checkInObservable!!.observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ time -> notificationManager.setCheckInTime(time.hour, time.minutes) })
+        disposables.addAll(
+                checkInClickedObservable.observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ time -> notificationManager.setCheckInTime(time.hour, time.minutes) }),
+
+                setGoalsClickedObservable.observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ time -> notificationManager.setSetGoalsTime(time.hour, time.minutes) }),
+
+                checkInStatusObservable.observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ status -> onCheckInChange(status)}),
+
+                setGoalsStatusObservable.observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ status -> onSetGoalsChange(status)})
         )
 
-        disposables.add(setGoalsObservable!!.observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ time -> notificationManager.setSetGoalsTime(time.hour, time.minutes) })
-        )
+    }
+
+    private fun onSetGoalsChange(status: NotificationStatus) {
+        if (status.isEnabled) {
+            displaySetGoalsTime(status.timePair!!)
+        } else  {
+            fadeOutSetGoalsTime()
+        }
+    }
+
+    private fun onCheckInChange(status: NotificationStatus) {
+        if (status.isEnabled) {
+            displayCheckInTime(status.timePair!!)
+        } else  {
+            fadeOutCheckInTime()
+        }
     }
 
     private fun setCompletedCount() {
@@ -86,82 +111,48 @@ class DashboardController(var component: TabContainerComponent? = null) : Contro
     }
 
     fun onSetCheckInClicked() {
-        val time = prefsManager.getCheckInNotificationsTime()
-        dashboardView.displayCheckInDialog(time)
+        dashboardView.displayCheckInDialog(notificationManager.getCheckInTime())
     }
 
-    private fun updateSetGoalsTime() {
-        if (prefsManager.setGoalsNotificationsAreEnabled()) {
-            displaySetGoalsTime()
-        } else {
-            hideSetGoalsTime()
-        }
+    fun onCheckInTimeSet(hours: Int, minutes: Int) {
+        notificationManager.setCheckInTime(hours, minutes)
     }
 
-    private fun displaySetGoalsTime() {
-        dashboardView.displaySetGoalsTime(prefsManager.getSetGoalsNotificationsTime())
+    private fun displaySetGoalsTime(time: TimePair) {
+        dashboardView.displaySetGoalsTime(time)
         dashboardView.displaySetGoalsCancelButton()
         dashboardView.setSetGoalsTitleTextSet()
     }
 
-    private fun hideSetGoalsTime() {
-        dashboardView.hideSetGoalsCancelButton()
-        dashboardView.hideSetGoalsTime()
-        dashboardView.setSetGoalsTitleTextUnset()
-    }
-
     private fun fadeOutSetGoalsTime() {
         dashboardView.fadeOutSetGoalsCancelButton()
-        dashboardView.fadeOutSetGoalsTime({ animator -> dashboardView.setSetGoalsTitleTextUnset() })
+        dashboardView.fadeOutSetGoalsTime({ _ -> dashboardView.setSetGoalsTitleTextUnset() })
     }
 
-    fun onCheckInTimeSet(hours: Int, minutes: Int) {
-        checkInObservable!!.accept(TimePair(hours, minutes))
-        displayCheckInTime()
-    }
-
-    private fun updateCheckInTime() {
-        if (prefsManager.checkInNotificationsAreEnabled()) {
-            displayCheckInTime()
-        } else {
-            hideCheckInTime()
-        }
-    }
-
-    private fun displayCheckInTime() {
-        dashboardView.displayCheckInTime(prefsManager.getCheckInNotificationsTime())
+    private fun displayCheckInTime(time: TimePair) {
+        dashboardView.displayCheckInTime(time)
         dashboardView.displayCheckInCancelButton()
         dashboardView.setCheckInTitleTextSet()
     }
 
-    private fun hideCheckInTime() {
-        dashboardView.hideCheckInCancelButton()
-        dashboardView.hideCheckInTime()
-        dashboardView.setCheckInTitleTextUnset()
-    }
-
     private fun fadeOutCheckInTime() {
         dashboardView.fadeOutCheckInCancelButton()
-        dashboardView.fadeOutCheckInTime({ animator -> dashboardView.setCheckInTitleTextUnset() })
+        dashboardView.fadeOutCheckInTime({ _ -> dashboardView.setCheckInTitleTextUnset() })
     }
 
     fun onSetSetGoalsClicked() {
-        val time = prefsManager.getSetGoalsNotificationsTime()
-        dashboardView.displaySetGoalsDialog(time)
+        dashboardView.displaySetGoalsDialog(notificationManager.getSetGoalsTime())
     }
 
     fun onSetGoalsTimeSet(hours: Int, minutes: Int) {
-        setGoalsObservable!!.accept(TimePair(hours, minutes))
-        displaySetGoalsTime()
+        notificationManager.setSetGoalsTime(hours, minutes)
     }
 
     fun onCancelCheckInTimeClicked() {
-        prefsManager.disableCheckInNotifications()
-        fadeOutCheckInTime()
+        notificationManager.disableCheckInNotifications()
     }
 
     fun onCancelSetGoalsTimeClicked() {
-        prefsManager.disableSetGoalsNotifications()
-        fadeOutSetGoalsTime()
+        notificationManager.disableSetGoalsNotifications()
     }
 }

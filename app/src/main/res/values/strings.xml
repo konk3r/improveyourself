@@ -12,6 +12,7 @@
     <string name="main_check_in_description">Following up on goals is important to keeping up, set a daily time to check in on your goals from the day before</string>
     <string name="main_set_goals_description">Stay on track! Set a daily time to set goals for the following day</string>
     <string name="main_title">Goals</string>
+    <string name="main_subtitle">Improve your life with small changes, one day at a time</string>
     <string name="dashboard_dialog_check_in_title">Set check in time</string>
     <string name="dashboard_dialog_set_goals_title">Set goal set time</string>
     <string name="main_text_cancel">turn off</string>

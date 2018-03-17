@@ -9,11 +9,14 @@ import android.os.Build
 import android.support.v4.app.AlarmManagerCompat
 import com.improve.improveyourself.data.PreferenceManager
 import com.improve.improveyourself.data.TimePair
+import com.improve.improveyourself.data.model.NotificationStatus
 import com.improve.improveyourself.receivers.NotificationBroadcastReceiver
 import com.improve.improveyourself.receivers.NotificationBroadcastReceiver.values.CHECK_IN_ID
 import com.improve.improveyourself.receivers.NotificationBroadcastReceiver.values.SET_GOAL_ID
 import com.improve.improveyourself.ui.ImproveApp
 import com.improve.improveyourself.util.nextInstanceOfTime
+import com.jakewharton.rxrelay2.BehaviorRelay
+import com.jakewharton.rxrelay2.Relay
 import java.util.*
 
 /**
@@ -24,6 +27,9 @@ class NotificationAlarmManager( val app: ImproveApp,
                                 val notificationManager: NotificationManager,
                                 val preferenceManager: PreferenceManager) {
 
+    val checkInStatusObservable: BehaviorRelay<NotificationStatus> = BehaviorRelay.create()
+    val setGoalsStatusObservable: BehaviorRelay<NotificationStatus> = BehaviorRelay.create()
+
     fun setup() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             return
@@ -31,10 +37,23 @@ class NotificationAlarmManager( val app: ImproveApp,
 
         val notificationChannel = NotificationChannel(GOAL_CHANNEL_ID, "Goals", NotificationManager.IMPORTANCE_DEFAULT)
         notificationManager.createNotificationChannel(notificationChannel)
+        setupObservables()
+    }
+
+    private fun setupObservables() {
+        val checkInTime = preferenceManager.getCheckInNotificationsTime()
+        val setGoalsTime = preferenceManager.getSetGoalsNotificationsTime()
+        val checkInNotificationsAreEnabled = preferenceManager.checkInNotificationsAreEnabled()
+        val setGoalsNotificationsAreEnabled = preferenceManager.setGoalsNotificationsAreEnabled()
+
+        checkInStatusObservable.accept(NotificationStatus(checkInNotificationsAreEnabled, checkInTime))
+        setGoalsStatusObservable.accept(NotificationStatus(setGoalsNotificationsAreEnabled, setGoalsTime))
     }
 
     fun setCheckInTime(hours: Int, minutes: Int) {
-        preferenceManager.enableCheckInNotifications(TimePair(hours, minutes))
+        val time = TimePair(hours, minutes)
+        preferenceManager.enableCheckInNotifications(time)
+        checkInStatusObservable.accept(NotificationStatus(true, time))
         scheduleNextCheckInAlarm()
     }
 
@@ -48,7 +67,9 @@ class NotificationAlarmManager( val app: ImproveApp,
     }
 
     fun setSetGoalsTime(hours: Int, minutes: Int) {
-        preferenceManager.enableSetGoalsNotifications(TimePair(hours, minutes))
+        val time = TimePair(hours, minutes)
+        preferenceManager.enableSetGoalsNotifications(time)
+        setGoalsStatusObservable.accept(NotificationStatus(true, time))
         scheduleNextSetGoalsAlarm()
     }
 
@@ -77,6 +98,34 @@ class NotificationAlarmManager( val app: ImproveApp,
 
     companion object IDs {
         val GOAL_CHANNEL_ID = "goal_id"
+    }
+
+    fun getCheckInObservable(): Relay<NotificationStatus> {
+        return checkInStatusObservable
+    }
+
+    fun getSetGoalsObservable(): Relay<NotificationStatus> {
+        return setGoalsStatusObservable
+    }
+
+    fun disableCheckInNotifications() {
+        preferenceManager.disableCheckInNotifications()
+        val checkInTime = preferenceManager.getCheckInNotificationsTime()
+        checkInStatusObservable.accept(NotificationStatus(false, checkInTime))
+    }
+
+    fun disableSetGoalsNotifications() {
+        val setGoalsTime = preferenceManager.getSetGoalsNotificationsTime()
+        preferenceManager.disableSetGoalsNotifications()
+        setGoalsStatusObservable.accept(NotificationStatus(false, setGoalsTime))
+    }
+
+    fun getCheckInTime(): TimePair {
+        return preferenceManager.getCheckInNotificationsTime()
+    }
+
+    fun getSetGoalsTime(): TimePair {
+        return preferenceManager.getSetGoalsNotificationsTime()
     }
 
 }
