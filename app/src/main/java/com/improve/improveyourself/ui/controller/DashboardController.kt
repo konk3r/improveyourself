@@ -26,6 +26,7 @@ import javax.inject.Inject
 class DashboardController(var component: TabContainerComponent? = null) : Controller() {
 
     private lateinit var dashboardView: DashboardView
+
     @Inject lateinit var goalManager: GoalManager
     @Inject lateinit var mainRouter: MainRouter
     @Inject lateinit var notificationManager: NotificationAlarmManager
@@ -61,11 +62,11 @@ class DashboardController(var component: TabContainerComponent? = null) : Contro
         setGoalsObservable = PublishRelay.create<TimePair>()
 
         disposables.add(checkInObservable!!.observeOn(AndroidSchedulers.mainThread())
-                .subscribe({time -> notificationManager.setCheckInTime(time.hour, time.minutes)})
+                .subscribe({ time -> notificationManager.setCheckInTime(time.hour, time.minutes) })
         )
 
         disposables.add(setGoalsObservable!!.observeOn(AndroidSchedulers.mainThread())
-                .subscribe({time -> notificationManager.setSetGoalsTime(time.hour, time.minutes)})
+                .subscribe({ time -> notificationManager.setSetGoalsTime(time.hour, time.minutes) })
         )
     }
 
@@ -77,7 +78,7 @@ class DashboardController(var component: TabContainerComponent? = null) : Contro
                 dashboardView.hideGoalCount()
             }
             else -> {
-                dashboardView.displayGoalCounticon()
+                dashboardView.displayGoalCountIcon()
                 dashboardView.displayGoalCount()
                 dashboardView.setGoalCount(goalsCompleted)
             }
@@ -109,6 +110,11 @@ class DashboardController(var component: TabContainerComponent? = null) : Contro
         dashboardView.setSetGoalsTitleTextUnset()
     }
 
+    private fun fadeOutSetGoalsTime() {
+        dashboardView.fadeOutSetGoalsCancelButton()
+        dashboardView.fadeOutSetGoalsTime({ animator -> dashboardView.setSetGoalsTitleTextUnset() })
+    }
+
     fun onCheckInTimeSet(hours: Int, minutes: Int) {
         checkInObservable!!.accept(TimePair(hours, minutes))
         displayCheckInTime()
@@ -134,6 +140,11 @@ class DashboardController(var component: TabContainerComponent? = null) : Contro
         dashboardView.setCheckInTitleTextUnset()
     }
 
+    private fun fadeOutCheckInTime() {
+        dashboardView.fadeOutCheckInCancelButton()
+        dashboardView.fadeOutCheckInTime({ animator -> dashboardView.setCheckInTitleTextUnset() })
+    }
+
     fun onSetSetGoalsClicked() {
         val time = prefsManager.getSetGoalsNotificationsTime()
         dashboardView.displaySetGoalsDialog(time)
@@ -146,11 +157,11 @@ class DashboardController(var component: TabContainerComponent? = null) : Contro
 
     fun onCancelCheckInTimeClicked() {
         prefsManager.disableCheckInNotifications()
-        hideCheckInTime()
+        fadeOutCheckInTime()
     }
 
     fun onCancelSetGoalsTimeClicked() {
         prefsManager.disableSetGoalsNotifications()
-        hideSetGoalsTime()
+        fadeOutSetGoalsTime()
     }
 }

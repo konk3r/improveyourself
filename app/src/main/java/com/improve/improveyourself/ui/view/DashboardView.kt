@@ -1,5 +1,6 @@
 package com.improve.improveyourself.ui.view
 
+import android.animation.Animator
 import com.improve.improveyourself.data.TimePair
 
 /**
@@ -23,6 +24,10 @@ interface DashboardView {
     fun setCheckInTitleTextUnset()
     fun setSetGoalsTitleTextSet()
     fun setSetGoalsTitleTextUnset()
-    fun displayGoalCounticon()
+    fun displayGoalCountIcon()
     fun hideGoalCountIcon()
+    fun fadeOutSetGoalsCancelButton()
+    fun fadeOutSetGoalsTime(animationEndListener: (Animator) -> Unit = { animator -> {} })
+    fun fadeOutCheckInCancelButton()
+    fun fadeOutCheckInTime(animationEndListener: (Animator) -> Unit = { animator -> {} })
 }

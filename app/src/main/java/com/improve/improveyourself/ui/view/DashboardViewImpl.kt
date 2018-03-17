@@ -1,12 +1,12 @@
 package com.improve.improveyourself.ui.view
 
+import android.animation.Animator
 import android.app.TimePickerDialog
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import com.improve.improveyourself.R
 import com.improve.improveyourself.data.TimePair
 import com.improve.improveyourself.ui.controller.DashboardController
+import com.improve.improveyourself.util.*
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.view_dashboard.*
 
@@ -17,20 +17,28 @@ class DashboardViewImpl(override val containerView: View, val controller: Dashbo
         LayoutContainer, DashboardView {
 
     init {
-        main_input_check_in_time.setOnClickListener({view -> controller.onSetCheckInClicked()})
-        main_input_goal_set_time.setOnClickListener({view -> controller.onSetSetGoalsClicked()})
-        main_button_cancel_check_in.setOnClickListener({view -> controller.onCancelCheckInTimeClicked()})
-        main_button_cancel_set_goals.setOnClickListener({view -> controller.onCancelSetGoalsTimeClicked()})
+        main_button_check_in_time.setOnClickListener({ view -> controller.onSetCheckInClicked() })
+        main_button_set_goals_time.setOnClickListener({ view -> controller.onSetSetGoalsClicked() })
+        main_button_cancel_check_in.setOnClickListener({ view -> controller.onCancelCheckInTimeClicked() })
+        main_button_cancel_set_goals.setOnClickListener({ view -> controller.onCancelSetGoalsTimeClicked() })
     }
 
     override fun hideGoalCount() {
-        main_input_goals_met.visibility = GONE
-        main_text_goals_met.visibility = GONE
+        main_input_goals_met.setAsGone()
+        main_text_goals_met.setAsGone()
     }
 
     override fun displayGoalCount() {
-        main_input_goals_met.visibility = VISIBLE
-        main_text_goals_met.visibility = VISIBLE
+        main_input_goals_met.show()
+        main_text_goals_met.show()
+    }
+
+    override fun displayGoalCountIcon() {
+        main_icon_goals_met.show()
+    }
+
+    override fun hideGoalCountIcon() {
+        main_icon_goals_met.setAsGone()
     }
 
     override fun setGoalCount(goalsCompleted: Long) {
@@ -39,7 +47,7 @@ class DashboardViewImpl(override val containerView: View, val controller: Dashbo
 
     override fun displayCheckInDialog(defaultTime: TimePair) {
         val timePicker = TimePickerDialog(containerView.context,
-                {picker, hours, minutes -> controller.onCheckInTimeSet(hours, minutes)},
+                { picker, hours, minutes -> controller.onCheckInTimeSet(hours, minutes) },
                 defaultTime.hour,
                 defaultTime.minutes,
                 false
@@ -51,7 +59,7 @@ class DashboardViewImpl(override val containerView: View, val controller: Dashbo
 
     override fun displaySetGoalsDialog(defaultTime: TimePair) {
         val timePicker = TimePickerDialog(containerView.context,
-                {picker, hours, minutes -> controller.onSetGoalsTimeSet(hours, minutes)},
+                { picker, hours, minutes -> controller.onSetGoalsTimeSet(hours, minutes) },
                 defaultTime.hour,
                 defaultTime.minutes,
                 false
@@ -62,39 +70,39 @@ class DashboardViewImpl(override val containerView: View, val controller: Dashbo
     }
 
     override fun displayCheckInCancelButton() {
-        main_button_cancel_check_in.visibility = VISIBLE
+        main_button_cancel_check_in.fadeIn()
     }
 
     override fun hideCheckInCancelButton() {
-        main_button_cancel_check_in.visibility = GONE
+        main_button_cancel_check_in.hide()
     }
 
     override fun displayCheckInTime(checkInNotificationTime: TimePair) {
         val formattedTime = checkInNotificationTime.format()
         main_text_check_in_time.text = formattedTime
-        main_text_check_in_time.visibility = VISIBLE
+        main_text_check_in_time.fadeIn()
     }
 
     override fun hideCheckInTime() {
-        main_text_check_in_time.visibility = GONE
+        main_text_check_in_time.hide()
     }
 
     override fun displaySetGoalsCancelButton() {
-        main_button_cancel_set_goals.visibility = VISIBLE
+        main_button_cancel_set_goals.fadeIn()
     }
 
     override fun hideSetGoalsCancelButton() {
-        main_button_cancel_set_goals.visibility = GONE
+        main_button_cancel_set_goals.hide()
     }
 
     override fun displaySetGoalsTime(setGoalsNotificationTime: TimePair) {
         val formattedTime = setGoalsNotificationTime.format()
         main_text_set_goals_time.text = formattedTime
-        main_text_set_goals_time.visibility = VISIBLE
+        main_text_set_goals_time.fadeIn()
     }
 
     override fun hideSetGoalsTime() {
-        main_text_set_goals_time.visibility = GONE
+        main_text_set_goals_time.hide()
     }
 
     override fun setCheckInTitleTextSet() {
@@ -113,11 +121,20 @@ class DashboardViewImpl(override val containerView: View, val controller: Dashbo
         main_text_set_goals.setText(R.string.main_check_in_time_unset)
     }
 
-    override fun displayGoalCounticon() {
-        main_icon_goals_met.visibility = VISIBLE
+    override fun fadeOutSetGoalsCancelButton() {
+        main_button_cancel_set_goals.fadeOut()
     }
 
-    override fun hideGoalCountIcon() {
-        main_icon_goals_met.visibility = GONE
+    override fun fadeOutSetGoalsTime(animationEndListener: (Animator) -> Unit) {
+        main_text_set_goals_time.fadeOut(endListener = animationEndListener)
     }
+
+    override fun fadeOutCheckInCancelButton() {
+        main_button_cancel_check_in.fadeOut()
+    }
+
+    override fun fadeOutCheckInTime(animationEndListener: (Animator) -> Unit) {
+        main_text_check_in_time.fadeOut(endListener = animationEndListener)
+    }
+
 }
