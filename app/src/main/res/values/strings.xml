@@ -16,4 +16,8 @@
     <string name="dashboard_dialog_check_in_title">Set check in time</string>
     <string name="dashboard_dialog_set_goals_title">Set goal set time</string>
     <string name="main_text_cancel">turn off</string>
+    <string name="notification_text_check_in">How did you do yesterday? Check in to go over your goals.</string>
+    <string name="notification_title_check_in">Check in</string>
+    <string name="notification_title_set_goals">Goal time</string>
+    <string name="notification_text_set_goals">Now is as good a time as any, set your upcoming goals</string>
 </resources>

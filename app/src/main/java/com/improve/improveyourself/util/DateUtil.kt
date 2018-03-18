@@ -1,5 +1,6 @@
 package com.improve.improveyourself.util
 
+import com.improve.improveyourself.util.DateUtil.Companion.MILLISECONDS_IN_DAY
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -18,6 +19,14 @@ fun Date.getYesterdaysDate(): Date {
 fun Date.roundDateToDay() = DateUtil().dateFormat.parse(formatToDay())
 
 fun Date.formatToDay() = DateUtil().dateFormat.format(this)
+
+fun Date.addDay(): Date {
+    return Date(time + MILLISECONDS_IN_DAY)
+}
+
+fun Date.subtractDay(): Date {
+    return Date(time - MILLISECONDS_IN_DAY)
+}
 
 fun Date.nextInstanceOfTime(hours: Int, minutes: Int): Date {
     val calendar = Calendar.getInstance()

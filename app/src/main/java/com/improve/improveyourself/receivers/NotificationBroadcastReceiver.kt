@@ -52,13 +52,8 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
 
     private fun sendNotification(type: Int) {
         when (type) {
-            CHECK_IN_ID -> {
-                sendCheckInNotification()
-            }
-
-            SET_GOAL_ID -> {
-                sendSetGoalNotification()
-            }
+            CHECK_IN_ID -> sendCheckInNotification()
+            SET_GOAL_ID -> sendSetGoalNotification()
         }
     }
 
@@ -86,8 +81,8 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
         val intent = createCheckInPendingIntent()
 
         return NotificationCompat.Builder(app, GOAL_CHANNEL_ID)
-                .setContentTitle("Check in")
-                .setContentText("How did you do yesterday? Check in to go over your goals.")
+                .setContentTitle(app.getString(R.string.notification_title_check_in))
+                .setContentText(app.getString(R.string.notification_text_check_in))
                 .setContentIntent(intent)
                 .setChannelId(GOAL_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_done_all_black_24dp)
@@ -96,11 +91,11 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
     }
 
     private fun buildSetGoalNotification(): Notification {
-        val intent = createSetGoalPendingIntent()
+        val intent = createSetGoalsPendingIntent()
 
         return NotificationCompat.Builder(app, GOAL_CHANNEL_ID)
-                .setContentTitle("Goal time")
-                .setContentText("Now is as good a time as any, set your upcoming goals")
+                .setContentTitle(app.getString(R.string.notification_title_set_goals))
+                .setContentText(app.getString(R.string.notification_text_set_goals))
                 .setContentIntent(intent)
                 .setChannelId(GOAL_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_alarm_on_black_24dp)
@@ -110,11 +105,15 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
 
     private fun createCheckInPendingIntent(): PendingIntent {
         val intent = Intent(app, MainActivity::class.java)
+        intent.putExtra(MainActivity.KEY_START_SCREEN, MainActivity.VALUE_CHECK_IN)
+        intent.setAction(MainActivity.VALUE_CHECK_IN)
         return PendingIntent.getActivity(app, CHECK_IN_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
-    private fun createSetGoalPendingIntent(): PendingIntent {
+    private fun createSetGoalsPendingIntent(): PendingIntent {
         val intent = Intent(app, MainActivity::class.java)
+        intent.putExtra(MainActivity.KEY_START_SCREEN, MainActivity.VALUE_SET_GOALS)
+        intent.setAction(MainActivity.VALUE_SET_GOALS)
         return PendingIntent.getActivity(app, SET_GOAL_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 

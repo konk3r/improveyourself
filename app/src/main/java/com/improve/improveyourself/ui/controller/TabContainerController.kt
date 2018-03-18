@@ -17,19 +17,20 @@ import com.improve.improveyourself.ui.navigation.MainRouter
 import com.improve.improveyourself.ui.view.TabContainerView
 import com.improve.improveyourself.ui.view.TabContainerViewImpl
 import com.improve.improveyourself.util.roundDateToDay
+import com.improve.improveyourself.util.subtractDay
 import java.util.*
 
 /**
  * Created by konk3r on 2/7/18.
  */
 
-class TabContainerController() : Controller(), MainRouter {
+class TabContainerController(val startScreen: String? = null) : Controller(), MainRouter {
 
-    private val DASHBOARD_POSITION = 1
     val component by lazy { (activity as MainActivity).component.plus(TabContainerModule(this)) }
     private lateinit var tabContainerView: TabContainerView
     private lateinit var supportActionBar: ActionBar
     private lateinit var bottomNavRouter: Router
+    private var currentTabId: Int = UNSET
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.view_main, container, false) as ViewGroup
@@ -48,25 +49,68 @@ class TabContainerController() : Controller(), MainRouter {
         (activity as MainActivity).setSupportActionBar(toolbar)
         supportActionBar = (activity as MainActivity).supportActionBar!!
 
-        val bottomNav = (view.findViewById(R.id.main_bottom_navigation) as BottomNavigationView)
         if (!bottomNavRouter.hasRootController()) {
-            val controller = DashboardController(component)
-            bottomNavRouter.setRoot(RouterTransaction.with(controller));
-
-            bottomNav.getMenu().getItem((DASHBOARD_POSITION)).isChecked = true
+            setRootController(view)
         }
+    }
+
+    private fun setRootController(view: View) {
+        when (startScreen) {
+            SCREEN_CHECK_IN -> launchYesterdaysGoals()
+            SCREEN_SET_GOALS -> launchSetGoals()
+            else -> {
+                val bottomNav = (view.findViewById(R.id.main_bottom_navigation) as BottomNavigationView)
+                val controller = DashboardController(component)
+                bottomNavRouter.setRoot(RouterTransaction.with(controller));
+                bottomNavRouter.popToRoot()
+                bottomNav.getMenu().getItem((DASHBOARD_POSITION)).isChecked = true
+                currentTabId = R.id.action_dashboard
+            }
+        }
+    }
+
+    fun launchSetGoals() {
+        val bottomNav = (view!!.findViewById(R.id.main_bottom_navigation) as BottomNavigationView)
+        val today = Date().roundDateToDay()
+        val controller = GoalListController(today, component)
+
+        bottomNavRouter.setRoot(RouterTransaction.with(controller));
+        bottomNavRouter.popToRoot()
+        bottomNavRouter.pushController(RouterTransaction.with(CreateGoalController(today, component)))
+        bottomNav.getMenu().getItem((GOAL_LIST_POSITION)).isChecked = true
+        currentTabId = R.id.action_goals
+    }
+
+    fun launchYesterdaysGoals() {
+        val bottomNav = (view!!.findViewById(R.id.main_bottom_navigation) as BottomNavigationView)
+        val yesterday = Date().subtractDay().roundDateToDay()
+        val controller = GoalListController(yesterday, component)
+
+        bottomNavRouter.setRoot(RouterTransaction.with(controller));
+        bottomNav.getMenu().getItem((GOAL_LIST_POSITION)).isChecked = true
+        currentTabId = R.id.action_goals
     }
 
     private fun setupBottomNav(view: ViewGroup) {
         val bottomNavBar = view.findViewById(R.id.main_bottom_navigation) as BottomNavigationView
         bottomNavBar.setOnNavigationItemSelectedListener({ item ->
-            when (item.itemId) {
-                R.id.action_history -> launchHistory()
-                R.id.action_dashboard -> launchDashboard()
-                R.id.action_goals -> launchTodaysGoals()
+            if (item.itemId != currentTabId) {
+                openNewTab(item.itemId)
+                currentTabId = item.itemId
+                true
+            } else {
+                currentTabId = item.itemId
+                false
             }
-            true
         })
+    }
+
+    private fun openNewTab(itemId: Int) {
+        when (itemId) {
+            R.id.action_history -> launchHistory()
+            R.id.action_dashboard -> launchDashboard()
+            R.id.action_goals -> launchTodaysGoals()
+        }
     }
 
     override fun onDestroyView(view: View) {
@@ -107,6 +151,18 @@ class TabContainerController() : Controller(), MainRouter {
 
     override fun showActionBar() {
         supportActionBar.show()
+    }
+
+    companion object {
+        val SCREEN_CHECK_IN = "screen_check_in"
+        val SCREEN_SET_GOALS = "screen_set_goals"
+
+
+        val GOAL_HISTORY_POSITION = 0
+        val DASHBOARD_POSITION = 1
+        val GOAL_LIST_POSITION = 2
+
+        val UNSET = -1
     }
 
 }

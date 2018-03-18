@@ -6,7 +6,7 @@ package com.improve.improveyourself.data
 data class TimePair(val hour: Int, val minutes: Int) {
 
     fun format(): String {
-        var hour = hour
+        var hour = if (this.hour == 0) 12 else this.hour
         val minutes = minutes
         val isPm = hour > 12
         if (isPm) {

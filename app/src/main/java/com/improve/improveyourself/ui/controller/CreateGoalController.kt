@@ -11,6 +11,7 @@ import com.improve.improveyourself.modules.TabContainerComponent
 import com.improve.improveyourself.ui.navigation.MainRouter
 import com.improve.improveyourself.ui.view.CreateGoalView
 import com.improve.improveyourself.ui.view.CreateGoalViewImpl
+import com.improve.improveyourself.util.subtractDay
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
@@ -45,7 +46,7 @@ class CreateGoalController(val date: Date, var component: TabContainerComponent?
         if (title.isEmpty()) {
             createGoalView.displayGoalError()
         } else {
-            goalManager.storeGoal(Goal(type, title, date, steps))
+            goalManager.storeGoal(Goal(type, title, date.subtractDay(), steps))
             mainRouter.goBack()
         }
     }

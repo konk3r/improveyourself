@@ -39,6 +39,7 @@ class DashboardController(var component: TabContainerComponent? = null) : Contro
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.view_dashboard, container, false)
+        inflater.toString()
         component!!.inject(this)
         dashboardView = DashboardViewImpl(view, this)
         setupObservables()
