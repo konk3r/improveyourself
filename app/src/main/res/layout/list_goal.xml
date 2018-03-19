@@ -18,21 +18,46 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_gravity="center_vertical"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        app:srcCompat="@drawable/ic_fitness_center_accent_24dp"
+        app:srcCompat="@drawable/ic_fitness_center_black_24dp"
+        />
+
+    <TextView
+        style="@style/TextAppearance.AppCompat.Title"
+        android:id="@+id/list_goal_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@id/list_goal_type_logo"
+        android:layout_toStartOf="@id/list_goal_completed"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Workout"
         />
 
     <TextView
         style="@style/TextAppearance.AppCompat.Subhead"
-        android:id="@+id/list_goal_title"
+        android:id="@+id/list_goal_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/list_goal_type_logo"
-        android:layout_toLeftOf="@id/list_goal_completed"
+        android:layout_below="@id/list_goal_title"
+        android:layout_toEndOf="@id/list_goal_type_logo"
+        android:layout_toStartOf="@id/list_goal_completed"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:text="stuff"
+        />
+
+    <TextView
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:id="@+id/list_goal_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
         android:text="stuff"
         />
 
@@ -40,9 +65,9 @@
         android:id="@+id/list_goal_completed"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_gravity="center_vertical"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
+        android:layout_marginBottom="8dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         app:srcCompat="@drawable/ic_check_accent_24dp"
         />
 </RelativeLayout>

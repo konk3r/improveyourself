@@ -22,10 +22,16 @@ class GoalViewHolder(override val containerView: View?, val goalBox: GoalManager
     fun bind(goal: Goal) {
         this.goal = goal
         list_goal_title.text = goal.title
+        list_goal_type.text = goal.type
+        if (goal.steps.isNullOrBlank()) {
+            list_goal_text.text = goal.type
+        } else {
+            list_goal_text.text = goal.steps
+        }
 
         when (goal.type) {
-            Goal.PRODUCTIVE -> list_goal_type_logo.setImageResource(R.drawable.ic_fitness_center_accent_24dp)
-            Goal.RELAXATION -> list_goal_type_logo.setImageResource(R.drawable.ic_hot_tub_accent_24dp)
+            Goal.PRODUCTIVE -> list_goal_type_logo.setImageResource(R.drawable.ic_fitness_center_black_24dp)
+            Goal.SELF_CARE -> list_goal_type_logo.setImageResource(R.drawable.ic_hot_tub_black_24dp)
         }
 
         list_goal_completed.apply {

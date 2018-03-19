@@ -23,6 +23,6 @@ data class Goal(@Id var id: Long = 0,
 
     companion object Type {
         val PRODUCTIVE = "Productive"
-        val RELAXATION = "Relaxation"
+        val SELF_CARE = "Self Care"
     }
 }

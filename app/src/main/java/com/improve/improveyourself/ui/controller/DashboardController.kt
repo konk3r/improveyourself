@@ -9,7 +9,7 @@ import com.improve.improveyourself.data.GoalManager
 import com.improve.improveyourself.data.TimePair
 import com.improve.improveyourself.data.model.NotificationStatus
 import com.improve.improveyourself.modules.TabContainerComponent
-import com.improve.improveyourself.ui.navigation.MainRouter
+import com.improve.improveyourself.ui.navigation.ToolbarManager
 import com.improve.improveyourself.ui.notification.NotificationAlarmManager
 import com.improve.improveyourself.ui.view.DashboardView
 import com.improve.improveyourself.ui.view.DashboardViewImpl
@@ -28,7 +28,7 @@ class DashboardController(var component: TabContainerComponent? = null) : Contro
     private lateinit var dashboardView: DashboardView
 
     @Inject lateinit var goalManager: GoalManager
-    @Inject lateinit var mainRouter: MainRouter
+    @Inject lateinit var toolbarManager: ToolbarManager
     @Inject lateinit var notificationManager: NotificationAlarmManager
     lateinit var checkInClickedObservable: Relay<TimePair>
     lateinit var setGoalsClickedObservable: Relay<TimePair>
@@ -49,7 +49,7 @@ class DashboardController(var component: TabContainerComponent? = null) : Contro
 
     override fun onAttach(view: View) {
         super.onAttach(view)
-        mainRouter.hideActionBar()
+        toolbarManager.hideActionBar()
         setCompletedCount()
     }
 

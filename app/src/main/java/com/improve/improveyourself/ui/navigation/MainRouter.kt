@@ -8,6 +8,4 @@ import java.util.*
 interface MainRouter {
     fun launchNewGoal(date: Date)
     fun goBack()
-    fun hideActionBar()
-    fun showActionBar()
 }

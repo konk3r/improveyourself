@@ -6,6 +6,8 @@ import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
@@ -14,6 +16,7 @@ import com.improve.improveyourself.R.id.main_toolbar
 import com.improve.improveyourself.modules.TabContainerModule
 import com.improve.improveyourself.ui.activity.MainActivity
 import com.improve.improveyourself.ui.navigation.MainRouter
+import com.improve.improveyourself.ui.navigation.ToolbarManager
 import com.improve.improveyourself.ui.view.TabContainerView
 import com.improve.improveyourself.ui.view.TabContainerViewImpl
 import com.improve.improveyourself.util.roundDateToDay
@@ -24,9 +27,9 @@ import java.util.*
  * Created by konk3r on 2/7/18.
  */
 
-class TabContainerController(val startScreen: String? = null) : Controller(), MainRouter {
+class TabContainerController(val startScreen: String? = null) : Controller(), MainRouter, ToolbarManager {
 
-    val component by lazy { (activity as MainActivity).component.plus(TabContainerModule(this)) }
+    val component by lazy { (activity as MainActivity).component.plus(TabContainerModule(this, this)) }
     private lateinit var tabContainerView: TabContainerView
     private lateinit var supportActionBar: ActionBar
     private lateinit var bottomNavRouter: Router
@@ -149,8 +152,28 @@ class TabContainerController(val startScreen: String? = null) : Controller(), Ma
         supportActionBar.hide()
     }
 
-    override fun showActionBar() {
+    override fun displayActionBar() {
         supportActionBar.show()
+    }
+
+    override fun setSpinnerAdapter(adapter: ArrayAdapter<String>) {
+        tabContainerView.setToolbarSpinnerAdapter(adapter)
+    }
+
+    override fun setSpinnerPosition(position: Int) {
+        tabContainerView.setToolbarSpinnerPosition(position)
+    }
+
+    override fun setSpinnerSelectedListener(listener: AdapterView.OnItemSelectedListener) {
+        tabContainerView.setSpinnerSelectedListener(listener)
+    }
+
+    override fun displayTitle() {
+        supportActionBar.setDisplayShowTitleEnabled(true)
+    }
+
+    override fun hideTitle() {
+        supportActionBar.setDisplayShowTitleEnabled(false)
     }
 
     companion object {

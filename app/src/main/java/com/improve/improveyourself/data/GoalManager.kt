@@ -13,7 +13,7 @@ import java.util.*
 class GoalManager(val goalBox: Box<Goal>) {
     fun loadGoalsFor(date: Date): io.reactivex.Observable<MutableList<Goal>> {
         val goals = goalBox.query()
-                .equal(Goal_.date, date)
+                .equal(Goal_.date, date.roundDateToDay())
                 .build()
                 .find()
         return Observable.just(goals)

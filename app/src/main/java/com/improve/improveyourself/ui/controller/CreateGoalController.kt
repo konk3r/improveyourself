@@ -9,9 +9,9 @@ import com.improve.improveyourself.data.GoalManager
 import com.improve.improveyourself.data.model.Goal
 import com.improve.improveyourself.modules.TabContainerComponent
 import com.improve.improveyourself.ui.navigation.MainRouter
+import com.improve.improveyourself.ui.navigation.ToolbarManager
 import com.improve.improveyourself.ui.view.CreateGoalView
 import com.improve.improveyourself.ui.view.CreateGoalViewImpl
-import com.improve.improveyourself.util.subtractDay
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
@@ -25,6 +25,7 @@ class CreateGoalController(val date: Date, var component: TabContainerComponent?
     private lateinit var createGoalView: CreateGoalView
     @Inject lateinit var goalManager: GoalManager
     @Inject lateinit var mainRouter: MainRouter
+    @Inject lateinit var toolbarManager: ToolbarManager
     @field:[Inject Named("goal_types")]
     internal lateinit var types: MutableList<String>
 
@@ -35,7 +36,7 @@ class CreateGoalController(val date: Date, var component: TabContainerComponent?
         component!!.inject(this)
         createGoalView = CreateGoalViewImpl(view, this)
         createGoalView.setGoalTypes(types)
-        mainRouter.showActionBar()
+        toolbarManager.displayActionBar()
 
         return view
     }
@@ -46,7 +47,7 @@ class CreateGoalController(val date: Date, var component: TabContainerComponent?
         if (title.isEmpty()) {
             createGoalView.displayGoalError()
         } else {
-            goalManager.storeGoal(Goal(type, title, date.subtractDay(), steps))
+            goalManager.storeGoal(Goal(type, title, date, steps))
             mainRouter.goBack()
         }
     }

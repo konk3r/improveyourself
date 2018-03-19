@@ -11,6 +11,7 @@ import com.improve.improveyourself.modules.GoalListModule
 import com.improve.improveyourself.modules.TabContainerComponent
 import com.improve.improveyourself.ui.navigation.FabListener
 import com.improve.improveyourself.ui.navigation.MainRouter
+import com.improve.improveyourself.ui.navigation.ToolbarManager
 import com.improve.improveyourself.ui.view.GoalListView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
@@ -26,6 +27,7 @@ class GoalHistoryController(var parentComponent: TabContainerComponent?) :
     @Inject lateinit var goalsView: GoalListView
     @Inject lateinit var goalManager: GoalManager
     @Inject lateinit var mainRouter: MainRouter
+    @Inject lateinit var toolbarManager: ToolbarManager
 
     constructor(): this(null)
 
@@ -33,7 +35,7 @@ class GoalHistoryController(var parentComponent: TabContainerComponent?) :
         val view = inflater.inflate(R.layout.view_goals, container, false)
         listComponent = parentComponent!!.plus(GoalListModule(view,this))
         listComponent.inject(this)
-        mainRouter.showActionBar()
+        toolbarManager.displayActionBar()
 
         return view
     }

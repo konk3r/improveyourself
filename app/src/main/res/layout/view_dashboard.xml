@@ -47,7 +47,7 @@
             android:paddingEnd="12dp"
             android:paddingStart="12dp"
             android:paddingTop="4dp"
-            android:text="Improve your life with little with small changes, one day at a time"
+            android:text="@string/main_subheader"
             android:textColor="?android:textColorPrimary"
             android:textStyle="italic"
             />
