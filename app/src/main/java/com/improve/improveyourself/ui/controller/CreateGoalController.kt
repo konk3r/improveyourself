@@ -20,7 +20,7 @@ import javax.inject.Named
  * Created by konk3r on 2/7/18.
  */
 
-class CreateGoalController(val date: Date, var component: TabContainerComponent?) : Controller() {
+class CreateGoalController(val date: Date = Date(), var component: TabContainerComponent? = null) : Controller() {
 
     private lateinit var createGoalView: CreateGoalView
     @Inject lateinit var goalManager: GoalManager
@@ -29,14 +29,15 @@ class CreateGoalController(val date: Date, var component: TabContainerComponent?
     @field:[Inject Named("goal_types")]
     internal lateinit var types: MutableList<String>
 
-    constructor () : this(Date(), null)
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.view_create_goal, container, false)
         component!!.inject(this)
         createGoalView = CreateGoalViewImpl(view, this)
         createGoalView.setGoalTypes(types)
         toolbarManager.displayActionBar()
+        toolbarManager.hideSpinner()
+        toolbarManager.displayTitle()
+        toolbarManager.setTitle("Create goal")
 
         return view
     }

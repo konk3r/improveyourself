@@ -10,4 +10,6 @@ interface TabContainerView {
     fun setToolbarSpinnerAdapter(adapter: ArrayAdapter<String>)
     fun setToolbarSpinnerPosition(position: Int)
     fun setSpinnerSelectedListener(listener: AdapterView.OnItemSelectedListener)
+    fun hideSpinner()
+    fun displaySpinner()
 }

@@ -9,9 +9,12 @@ import android.widget.ArrayAdapter
 interface ToolbarManager {
     fun hideActionBar()
     fun displayActionBar()
-    fun setSpinnerAdapter(adapter: ArrayAdapter<String>)
     fun hideTitle()
     fun displayTitle()
+    fun setTitle(text: String)
     fun setSpinnerPosition(position: Int)
     fun setSpinnerSelectedListener(listener: AdapterView.OnItemSelectedListener)
+    fun setSpinnerAdapter(adapter: ArrayAdapter<String>)
+    fun hideSpinner()
+    fun displaySpinner()
 }

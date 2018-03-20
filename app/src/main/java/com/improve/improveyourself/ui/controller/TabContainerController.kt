@@ -42,11 +42,6 @@ class TabContainerController(val startScreen: String? = null) : Controller(), Ma
         bottomNavRouter = getChildRouter(view.findViewById(R.id.main_view_container))
         setupBottomNav(view)
 
-        return view
-    }
-
-    override fun onAttach(view: View) {
-        super.onAttach(view)
         val toolbar: Toolbar = view.findViewById(main_toolbar)
 
         (activity as MainActivity).setSupportActionBar(toolbar)
@@ -55,6 +50,8 @@ class TabContainerController(val startScreen: String? = null) : Controller(), Ma
         if (!bottomNavRouter.hasRootController()) {
             setRootController(view)
         }
+
+        return view
     }
 
     private fun setRootController(view: View) {
@@ -168,12 +165,24 @@ class TabContainerController(val startScreen: String? = null) : Controller(), Ma
         tabContainerView.setSpinnerSelectedListener(listener)
     }
 
+    override fun hideSpinner() {
+        tabContainerView.hideSpinner()
+    }
+
+    override fun displaySpinner() {
+        tabContainerView.displaySpinner()
+    }
+
     override fun displayTitle() {
         supportActionBar.setDisplayShowTitleEnabled(true)
     }
 
     override fun hideTitle() {
         supportActionBar.setDisplayShowTitleEnabled(false)
+    }
+
+    override fun setTitle(text: String) {
+        supportActionBar.setTitle(text)
     }
 
     companion object {

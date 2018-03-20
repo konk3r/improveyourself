@@ -45,18 +45,24 @@ class GoalListController(var date: Date = Date().roundDateToDay(), var parentCom
         listComponent = parentComponent!!.plus(GoalListModule(view, this))
         listComponent.inject(this)
 
-        setupSpinner(container)
-
         return view
     }
 
-    private fun setupSpinner(container: ViewGroup) {
+    override fun onAttach(view: View) {
+        super.onAttach(view)
+
+        setupSpinner()
+        loadGoals()
+    }
+
+    private fun setupSpinner() {
         val titles = dateSelection.map { selection -> selection.title }
-        val adapter = ArrayAdapter(container.context, R.layout.list_goal_types, titles)
+        val adapter = ArrayAdapter(activity, R.layout.list_goal_types, titles)
 
         toolbarManager.displayActionBar()
         toolbarManager.setSpinnerAdapter(adapter)
         toolbarManager.hideTitle()
+        toolbarManager.displaySpinner()
         toolbarManager.setSpinnerSelectedListener(object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(view: AdapterView<*>?) {
             }
@@ -76,11 +82,6 @@ class GoalListController(var date: Date = Date().roundDateToDay(), var parentCom
                 toolbarManager.setSpinnerPosition(dateSelection.indexOf(selection))
             }
         }
-    }
-
-    override fun onAttach(view: View) {
-        super.onAttach(view)
-        loadGoals()
     }
 
     private fun loadGoals() {

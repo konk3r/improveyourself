@@ -4,6 +4,8 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.improve.improveyourself.ui.controller.TabContainerController
+import com.improve.improveyourself.util.hide
+import com.improve.improveyourself.util.show
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.view_main.*
 
@@ -23,6 +25,14 @@ class TabContainerViewImpl(override val containerView: View, val controller: Tab
 
     override fun setSpinnerSelectedListener(listener: AdapterView.OnItemSelectedListener) {
         main_toolbar_spinner.onItemSelectedListener = listener
+    }
+
+    override fun hideSpinner() {
+        main_toolbar_spinner.hide()
+    }
+
+    override fun displaySpinner() {
+        main_toolbar_spinner.show()
     }
 
 }
