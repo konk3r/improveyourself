@@ -86,7 +86,7 @@
             />
 
         <android.support.v7.widget.CardView
-            android:id="@+id/main_check_in_card"
+            android:id="@+id/main_set_goals_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/main_text_goals_met"
@@ -94,92 +94,6 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            >
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
-
-                <ImageView
-                    android:id="@+id/main_icon_check_in"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginStart="8dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/main_text_check_in"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/main_text_check_in"
-                    app:srcCompat="@drawable/ic_add_check_black_24dp"/>
-
-                <TextView
-                    android:id="@+id/main_text_check_in"
-                    style="@style/TextAppearance.AppCompat.Subhead"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/main_check_in_time_unset"
-                    app:layout_constraintStart_toEndOf="@+id/main_icon_check_in"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <TextView
-                    android:id="@+id/main_check_in_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/main_check_in_description"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/main_text_check_in"/>
-
-                <TextView
-                    android:id="@+id/main_text_check_in_time"
-                    style="@style/TextAppearance.AppCompat.Subhead"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="TextView"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/main_text_check_in"
-                    app:layout_constraintStart_toEndOf="@+id/main_text_check_in"/>
-
-                <Button
-                    android:id="@+id/main_button_cancel_check_in"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:text="@string/main_text_cancel"
-                    app:layout_constraintBottom_toBottomOf="@+id/main_button_check_in_time"
-                    app:layout_constraintEnd_toStartOf="@+id/main_button_check_in_time"
-                    app:layout_constraintTop_toTopOf="@+id/main_button_check_in_time"/>
-                    />
-
-                <Button
-                    android:id="@+id/main_button_check_in_time"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/main_click_to_set"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/main_check_in_description"/>
-
-            </android.support.constraint.ConstraintLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/main_set_goals_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/main_check_in_card"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
             >
 
             <android.support.constraint.ConstraintLayout
@@ -253,13 +167,100 @@
                     />
             </android.support.constraint.ConstraintLayout>
 
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/main_check_in_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/main_set_goals_card"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            >
+
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <ImageView
+                    android:id="@+id/main_icon_check_in"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/main_text_check_in"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/main_text_check_in"
+                    app:srcCompat="@drawable/ic_add_check_black_24dp"/>
+
+                <TextView
+                    android:id="@+id/main_text_check_in"
+                    style="@style/TextAppearance.AppCompat.Subhead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/main_check_in_time_unset"
+                    app:layout_constraintStart_toEndOf="@+id/main_icon_check_in"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/main_check_in_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/main_check_in_description"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/main_text_check_in"/>
+
+                <TextView
+                    android:id="@+id/main_text_check_in_time"
+                    style="@style/TextAppearance.AppCompat.Subhead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="TextView"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/main_text_check_in"
+                    app:layout_constraintStart_toEndOf="@+id/main_text_check_in"/>
+
+                <Button
+                    android:id="@+id/main_button_cancel_check_in"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/main_text_cancel"
+                    app:layout_constraintBottom_toBottomOf="@+id/main_button_check_in_time"
+                    app:layout_constraintEnd_toStartOf="@+id/main_button_check_in_time"
+                    app:layout_constraintTop_toTopOf="@+id/main_button_check_in_time"/>
+                />
+
+                <Button
+                    android:id="@+id/main_button_check_in_time"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/main_click_to_set"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/main_check_in_description"/>
+
+            </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
 
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/main_set_goals_card"
+            android:layout_below="@id/main_check_in_card"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"

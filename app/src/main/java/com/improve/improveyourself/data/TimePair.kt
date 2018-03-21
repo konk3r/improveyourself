@@ -8,8 +8,8 @@ data class TimePair(val hour: Int, val minutes: Int) {
     fun format(): String {
         var hour = if (this.hour == 0) 12 else this.hour
         val minutes = minutes
-        val isPm = hour > 12
-        if (isPm) {
+        val isPm = hour >= 12
+        if (hour > 12) {
             hour -= 12
         }
 

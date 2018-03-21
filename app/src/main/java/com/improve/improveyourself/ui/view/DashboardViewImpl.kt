@@ -65,7 +65,7 @@ class DashboardViewImpl(override val containerView: View, val controller: Dashbo
                 false
         )
 
-        timePicker.setTitle(R.string.dashboard_dialog_check_in_title)
+        timePicker.setTitle(R.string.dashboard_dialog_set_goals_title)
         timePicker.show()
     }
 
@@ -106,19 +106,19 @@ class DashboardViewImpl(override val containerView: View, val controller: Dashbo
     }
 
     override fun setCheckInTitleTextSet() {
-        main_text_check_in.setText(R.string.main_goal_set_time_set)
+        main_text_check_in.setText(R.string.main_check_in_time_set)
     }
 
     override fun setCheckInTitleTextUnset() {
-        main_text_check_in.setText(R.string.main_goal_set_time_unset)
+        main_text_check_in.setText(R.string.main_check_in_time_unset)
     }
 
     override fun setSetGoalsTitleTextSet() {
-        main_text_set_goals.setText(R.string.main_check_in_time_set)
+        main_text_set_goals.setText(R.string.main_goal_set_time_set)
     }
 
     override fun setSetGoalsTitleTextUnset() {
-        main_text_set_goals.setText(R.string.main_check_in_time_unset)
+        main_text_set_goals.setText(R.string.main_goal_set_time_unset)
     }
 
     override fun fadeOutSetGoalsCancelButton() {
