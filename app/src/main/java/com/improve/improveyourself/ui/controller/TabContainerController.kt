@@ -13,6 +13,7 @@ import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import com.improve.improveyourself.R
 import com.improve.improveyourself.R.id.main_toolbar
+import com.improve.improveyourself.data.model.Goal
 import com.improve.improveyourself.modules.TabContainerModule
 import com.improve.improveyourself.ui.activity.MainActivity
 import com.improve.improveyourself.ui.navigation.MainRouter
@@ -137,6 +138,9 @@ class TabContainerController(val startScreen: String? = null) : Controller(), Ma
 
     override fun launchNewGoal(date: Date) {
         bottomNavRouter.pushController(RouterTransaction.with(CreateGoalController(date, component)))
+    }
+    override fun launchEditGoal(goal: Goal) {
+        bottomNavRouter.pushController(RouterTransaction.with(CreateGoalController(goal, component)))
     }
 
     override fun goBack() {

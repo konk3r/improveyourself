@@ -1,5 +1,6 @@
 package com.improve.improveyourself.ui.navigation
 
+import com.improve.improveyourself.data.model.Goal
 import java.util.*
 
 /**
@@ -7,5 +8,6 @@ import java.util.*
  */
 interface MainRouter {
     fun launchNewGoal(date: Date)
+    fun launchEditGoal(goal: Goal)
     fun goBack()
 }

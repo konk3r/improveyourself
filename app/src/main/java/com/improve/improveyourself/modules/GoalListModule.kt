@@ -1,10 +1,12 @@
 package com.improve.improveyourself.modules
 
+import android.view.LayoutInflater
 import android.view.View
 import com.improve.improveyourself.data.GoalManager
 import com.improve.improveyourself.ui.adapter.GoalAdapter
 import com.improve.improveyourself.ui.adapter.GoalHistoryAdapter
 import com.improve.improveyourself.ui.navigation.FabListener
+import com.improve.improveyourself.ui.navigation.MainRouter
 import com.improve.improveyourself.ui.view.GoalHistoryView
 import com.improve.improveyourself.ui.view.GoalHistoryViewImpl
 import com.improve.improveyourself.ui.view.GoalListView
@@ -34,8 +36,9 @@ class GoalListModule(val view: View, val fabListener: FabListener? = null) {
     }
 
     @Provides
-    fun provideGoalHistoryAdapter(goalManager: GoalManager): GoalHistoryAdapter {
-        return GoalHistoryAdapter(goalManager)
+    fun provideGoalHistoryAdapter(goalManager: GoalManager, inflater: LayoutInflater,
+                                  mainRouter: MainRouter): GoalHistoryAdapter {
+        return GoalHistoryAdapter(goalManager, inflater, mainRouter)
     }
 
 }

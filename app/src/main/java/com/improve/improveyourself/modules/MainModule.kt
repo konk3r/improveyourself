@@ -11,4 +11,5 @@ import dagger.Provides
 class MainModule(val activity: MainActivity) {
     @Provides fun provideActivity() = activity
     @Provides fun provideSupportFragmentManager() = activity.supportFragmentManager
+    @Provides fun provideLayoutInflater() = activity.layoutInflater
 }

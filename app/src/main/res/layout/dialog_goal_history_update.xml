@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout
+    android:id="@+id/list_goal_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:orientation="horizontal"
+    >
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/goal_history_update_type_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/goal_history_update_type"
+        app:layout_constraintStart_toEndOf="@+id/goal_history_update_type"
+        app:layout_constraintTop_toTopOf="@+id/goal_history_update_type"
+        app:srcCompat="@drawable/ic_fitness_center_black_24dp"/>
+
+    <TextView
+        android:id="@+id/goal_history_update_title"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@id/goal_history_update_type_icon"
+        android:layout_toStartOf="@id/goal_history_update_completed"
+        android:text="Workout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/goal_history_update_text"
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/goal_history_update_title"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@id/goal_history_update_type_icon"
+        android:layout_toStartOf="@id/goal_history_update_completed"
+        android:text="stuff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goal_history_update_type"/>
+
+    <TextView
+        android:id="@+id/goal_history_update_type"
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="stuff"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goal_history_update_title"/>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/goal_history_update_completed"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/goal_history_update_title"
+        app:layout_constraintStart_toEndOf="@+id/goal_history_update_title"
+        app:layout_constraintTop_toTopOf="@+id/goal_history_update_title"
+        app:srcCompat="@drawable/ic_check_accent_24dp"/>
+
+    <ImageButton
+        android:id="@+id/goal_history_update_button_edit"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="30dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="8dp"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:paddingBottom="8dp"
+        android:paddingEnd="0dp"
+        android:paddingStart="6dp"
+        android:paddingTop="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_edit_black_24dp"/>
+</android.support.constraint.ConstraintLayout>

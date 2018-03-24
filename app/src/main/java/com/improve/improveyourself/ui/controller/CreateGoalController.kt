@@ -12,6 +12,9 @@ import com.improve.improveyourself.ui.navigation.MainRouter
 import com.improve.improveyourself.ui.navigation.ToolbarManager
 import com.improve.improveyourself.ui.view.CreateGoalView
 import com.improve.improveyourself.ui.view.CreateGoalViewImpl
+import com.improve.improveyourself.util.toDay
+import com.improve.improveyourself.util.toMonth
+import com.improve.improveyourself.util.toYear
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
@@ -20,7 +23,13 @@ import javax.inject.Named
  * Created by konk3r on 2/7/18.
  */
 
-class CreateGoalController(val date: Date = Date(), var component: TabContainerComponent? = null) : Controller() {
+class CreateGoalController(var date: Date = Date(), var component: TabContainerComponent? = null) : Controller() {
+
+    private var goal: Goal? = null
+
+    constructor(goal: Goal, component: TabContainerComponent) : this(goal.date, component) {
+        this.goal = goal
+    }
 
     private lateinit var createGoalView: CreateGoalView
     @Inject lateinit var goalManager: GoalManager
@@ -34,23 +43,64 @@ class CreateGoalController(val date: Date = Date(), var component: TabContainerC
         component!!.inject(this)
         createGoalView = CreateGoalViewImpl(view, this)
         createGoalView.setGoalTypes(types)
-        toolbarManager.displayActionBar()
-        toolbarManager.hideSpinner()
-        toolbarManager.displayTitle()
-        toolbarManager.setTitle("Create goal")
+        createGoalView.setDate(date)
+        setupToolbar()
+
+        if(goal != null) {
+            setupGoal()
+        }
 
         return view
     }
 
-    fun onCreateClicked(type: String, title: String, steps: String) {
+    private fun setupToolbar() {
+        toolbarManager.displayActionBar()
+        toolbarManager.hideSpinner()
+        toolbarManager.displayTitle()
+        if (goal == null) {
+            toolbarManager.setTitle("Create goal")
+        } else {
+            toolbarManager.setTitle("Update goal")
+        }
+    }
+
+    private fun setupGoal() {
+        createGoalView.setTitle(goal!!.title)
+        createGoalView.setType(goal!!.type)
+        createGoalView.setSteps(goal!!.steps)
+    }
+
+    fun onFabClicked(type: String, title: String, steps: String) {
         createGoalView.clearGoalError()
 
         if (title.isEmpty()) {
             createGoalView.displayGoalError()
         } else {
-            goalManager.storeGoal(Goal(type, title, date, steps))
+            manageGoal(type, title, steps)
             mainRouter.goBack()
         }
+    }
+
+    private fun manageGoal(type: String, title: String, steps: String) {
+        if (goal == null) {
+            goal = Goal(type, title, date, steps)
+        } else {
+            goal!!.type = type
+            goal!!.title = title
+            goal!!.date = date
+            goal!!.steps =steps
+        }
+
+        goalManager.storeGoal(goal!!)
+    }
+
+    fun onDateClicked() {
+        createGoalView.displayDateDialog(date.toYear(), date.toMonth(), date.toDay())
+    }
+
+    fun onDateSelected(year: Int, month: Int, day: Int) {
+        date = GregorianCalendar(year, month, day).time
+        createGoalView.setDate(date)
     }
 
 }

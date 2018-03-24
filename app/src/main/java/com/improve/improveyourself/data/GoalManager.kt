@@ -20,7 +20,7 @@ class GoalManager(val goalBox: Box<Goal>) {
     }
 
     fun storeGoal(goal: Goal) {
-        goal.date = goal.date?.roundDateToDay()
+        goal.date = goal.date.roundDateToDay()
         goalBox.put(goal)
     }
 
@@ -40,4 +40,5 @@ class GoalManager(val goalBox: Box<Goal>) {
 
         return Observable.just(goals)
     }
+
 }

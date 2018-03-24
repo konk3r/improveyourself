@@ -28,6 +28,24 @@ fun Date.subtractDay(): Date {
     return Date(time - MILLISECONDS_IN_DAY)
 }
 
+fun Date.toYear(): Int {
+    val calendar = Calendar.getInstance()
+    calendar.time = this
+    return calendar.get(Calendar.YEAR)
+}
+
+fun Date.toMonth(): Int {
+    val calendar = Calendar.getInstance()
+    calendar.time = this
+    return calendar.get(Calendar.MONTH)
+}
+
+fun Date.toDay(): Int {
+    val calendar = Calendar.getInstance()
+    calendar.time = this
+    return calendar.get(Calendar.DAY_OF_WEEK)
+}
+
 fun Date.nextInstanceOfTime(hours: Int, minutes: Int): Date {
     val calendar = Calendar.getInstance()
     calendar.timeInMillis = System.currentTimeMillis()
@@ -53,6 +71,6 @@ class DateUtil {
     }
 
     val dateFormat by lazy {
-        SimpleDateFormat("yyyyy-MM-dd", Locale.US)
+        SimpleDateFormat("yyyy-MM-dd", Locale.US)
     }
 }

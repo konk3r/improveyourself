@@ -21,4 +21,5 @@
     <string name="notification_title_set_goals">Goal time</string>
     <string name="notification_text_set_goals">Now is as good a time as any, set your upcoming goals</string>
     <string name="main_subheader">Improve your life with small changes, one day at a time</string>
+    <string name="goal_history_dialog_done">done</string>
 </resources>
