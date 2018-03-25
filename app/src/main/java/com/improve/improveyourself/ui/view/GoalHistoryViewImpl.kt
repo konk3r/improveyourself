@@ -24,4 +24,8 @@ class GoalHistoryViewImpl(override val containerView: View, val goalAdapter: Goa
     override fun displayList(list: MutableList<Goal>) {
         goalAdapter.setList(list)
     }
+
+    override fun notifyUpdated(goal: Goal) {
+        goalAdapter.onGoalUpdated(goal)
+    }
 }

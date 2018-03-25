@@ -7,4 +7,5 @@ import com.improve.improveyourself.data.model.Goal
  */
 interface GoalHistoryView {
     fun displayList(list: MutableList<Goal>)
+    fun notifyUpdated(goal: Goal)
 }

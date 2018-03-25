@@ -15,7 +15,7 @@ import com.improve.improveyourself.ui.view.GoalHistoryDialogViewImpl
  * Created by konk3r on 3/8/18.
  */
 class GoalHistoryAdapter(val goalManager: GoalManager, val inflater: LayoutInflater,
-                         val mainRouter: MainRouter): RecyclerView.Adapter<GoalHistoryViewHolder>() {
+                         mainRouter: MainRouter): RecyclerView.Adapter<GoalHistoryViewHolder>() {
 
     private var list: MutableList<Goal> = ArrayList()
     private var dialogView: View = inflater.inflate(R.layout.dialog_goal_history_update, null, false)
@@ -43,6 +43,11 @@ class GoalHistoryAdapter(val goalManager: GoalManager, val inflater: LayoutInfla
     fun setList(list: MutableList<Goal>) {
         this.list = list
         notifyDataSetChanged()
+    }
+
+    fun onGoalUpdated(goal: Goal) {
+        val position = list.indexOf(goal)
+        notifyItemChanged(position)
     }
 
 }

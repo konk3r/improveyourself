@@ -5,7 +5,10 @@
     <color name="colorPrimaryDark">#FF0069c0</color>
     <color name="colorAccent">#FF1565c0</color>
 
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">@color/white_1000</color>
+    <color name="white_1000">#FFFFFFFF</color>
+    <color name="white_500">#FFF5F5F5</color>
+
     <color name="black">#FF000000</color>
     <color name="off_black">#FF3F3F3F</color>
 
