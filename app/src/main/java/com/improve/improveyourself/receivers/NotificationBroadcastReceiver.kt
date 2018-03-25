@@ -35,18 +35,8 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
         }
 
         when (intent.action) {
-            ACTION_BOOT_COMPLETED -> restoreAlarms()
+            ACTION_BOOT_COMPLETED -> notificationAlarmManager.restoreAlarms()
             ACTION_SEND_NOTIFICATION -> sendNotification(intent.getIntExtra(TYPE, NO_ID_SET))
-        }
-    }
-
-    private fun restoreAlarms() {
-        if (preferenceManager.checkInNotificationsAreEnabled()) {
-            notificationAlarmManager.scheduleNextCheckInAlarm()
-        }
-
-        if (preferenceManager.setGoalsNotificationsAreEnabled()) {
-            notificationAlarmManager.scheduleNextSetGoalsAlarm()
         }
     }
 

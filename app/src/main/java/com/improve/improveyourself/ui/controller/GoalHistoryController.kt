@@ -8,7 +8,6 @@ import com.improve.improveyourself.R
 import com.improve.improveyourself.data.GoalManager
 import com.improve.improveyourself.modules.GoalListComponent
 import com.improve.improveyourself.modules.GoalListModule
-import com.improve.improveyourself.modules.TabContainerComponent
 import com.improve.improveyourself.ui.navigation.ToolbarManager
 import com.improve.improveyourself.ui.view.GoalHistoryView
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -18,8 +17,10 @@ import javax.inject.Inject
  * Created by konk3r on 2/7/18.
  */
 
-class GoalHistoryController(var parentComponent: TabContainerComponent? = null) :
+class GoalHistoryController() :
         Controller() {
+
+    val component by lazy { (parentController as TabContainerController).component }
 
     private lateinit var listComponent: GoalListComponent
     @Inject lateinit var goalsView: GoalHistoryView
@@ -28,7 +29,7 @@ class GoalHistoryController(var parentComponent: TabContainerComponent? = null) 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.view_goal_history, container, false)
-        listComponent = parentComponent!!.plus(GoalListModule(view))
+        listComponent = component.plus(GoalListModule(view))
         listComponent.inject(this)
         toolbarManager.displayActionBar()
         toolbarManager.setTitle("Goals")

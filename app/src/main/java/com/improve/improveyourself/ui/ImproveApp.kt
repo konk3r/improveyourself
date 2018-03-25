@@ -26,5 +26,6 @@ class ImproveApp : Application() {
         component.inject(this)
 
         notificationAlarmManager.setup()
+        notificationAlarmManager.restoreAlarms()
     }
 }

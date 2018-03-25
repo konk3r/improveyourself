@@ -12,7 +12,6 @@ import com.improve.improveyourself.data.model.DateSelection
 import com.improve.improveyourself.data.model.Goal
 import com.improve.improveyourself.modules.GoalListComponent
 import com.improve.improveyourself.modules.GoalListModule
-import com.improve.improveyourself.modules.TabContainerComponent
 import com.improve.improveyourself.ui.navigation.FabListener
 import com.improve.improveyourself.ui.navigation.MainRouter
 import com.improve.improveyourself.ui.navigation.ToolbarManager
@@ -27,12 +26,14 @@ import javax.inject.Inject
  * Created by konk3r on 2/7/18.
  */
 
-class GoalListController(var date: Date = Date().roundDateToDay(), var parentComponent: TabContainerComponent? = null) :
+class GoalListController(var date: Date = Date().roundDateToDay()) :
         Controller(), FabListener {
 
     init {
         date = date.roundDateToDay()
     }
+
+    val component by lazy { (parentController as TabContainerController).component }
 
     private lateinit var listComponent: GoalListComponent
     @Inject lateinit var goalsView: GoalListView
@@ -43,7 +44,7 @@ class GoalListController(var date: Date = Date().roundDateToDay(), var parentCom
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.view_goals, container, false)
-        listComponent = parentComponent!!.plus(GoalListModule(view, this))
+        listComponent = component.plus(GoalListModule(view, this))
         listComponent.inject(this)
         goalsView.setController(this)
 

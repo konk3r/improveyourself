@@ -7,7 +7,6 @@ import com.bluelinelabs.conductor.Controller
 import com.improve.improveyourself.R
 import com.improve.improveyourself.data.GoalManager
 import com.improve.improveyourself.data.model.Goal
-import com.improve.improveyourself.modules.TabContainerComponent
 import com.improve.improveyourself.ui.navigation.MainRouter
 import com.improve.improveyourself.ui.navigation.ToolbarManager
 import com.improve.improveyourself.ui.view.CreateGoalView
@@ -23,11 +22,12 @@ import javax.inject.Named
  * Created by konk3r on 2/7/18.
  */
 
-class CreateGoalController(var date: Date = Date(), var component: TabContainerComponent? = null) : Controller() {
+class CreateGoalController(var date: Date = Date()) : Controller() {
 
+    val component by lazy { (parentController as TabContainerController).component }
     private var goal: Goal? = null
 
-    constructor(goal: Goal, component: TabContainerComponent) : this(goal.date, component) {
+    constructor(goal: Goal) : this(goal.date) {
         this.goal = goal
     }
 
@@ -40,7 +40,7 @@ class CreateGoalController(var date: Date = Date(), var component: TabContainerC
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.view_create_goal, container, false)
-        component!!.inject(this)
+        component.inject(this)
         createGoalView = CreateGoalViewImpl(view, this)
         createGoalView.setGoalTypes(types)
         createGoalView.setDate(date)

@@ -39,14 +39,14 @@ class TabContainerController(val startScreen: String? = null) : Controller(), Ma
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.view_main, container, false) as ViewGroup
         component.inject(this)
+
+        val toolbar: Toolbar = view.findViewById(main_toolbar)
+        (activity as MainActivity).setSupportActionBar(toolbar)
+        supportActionBar = (activity as MainActivity).supportActionBar!!
+
         tabContainerView = TabContainerViewImpl(view, this)
         bottomNavRouter = getChildRouter(view.findViewById(R.id.main_view_container))
         setupBottomNav(view)
-
-        val toolbar: Toolbar = view.findViewById(main_toolbar)
-
-        (activity as MainActivity).setSupportActionBar(toolbar)
-        supportActionBar = (activity as MainActivity).supportActionBar!!
 
         if (!bottomNavRouter.hasRootController()) {
             setRootController(view)
@@ -61,7 +61,7 @@ class TabContainerController(val startScreen: String? = null) : Controller(), Ma
             SCREEN_SET_GOALS -> launchSetGoals()
             else -> {
                 val bottomNav = (view.findViewById(R.id.main_bottom_navigation) as BottomNavigationView)
-                val controller = DashboardController(component)
+                val controller = DashboardController()
                 bottomNavRouter.setRoot(RouterTransaction.with(controller));
                 bottomNavRouter.popToRoot()
                 bottomNav.getMenu().getItem((DASHBOARD_POSITION)).isChecked = true
@@ -73,11 +73,11 @@ class TabContainerController(val startScreen: String? = null) : Controller(), Ma
     fun launchSetGoals() {
         val bottomNav = (view!!.findViewById(R.id.main_bottom_navigation) as BottomNavigationView)
         val today = Date().roundDateToDay()
-        val controller = GoalListController(today, component)
+        val controller = GoalListController(today)
 
         bottomNavRouter.setRoot(RouterTransaction.with(controller));
         bottomNavRouter.popToRoot()
-        bottomNavRouter.pushController(RouterTransaction.with(CreateGoalController(today, component)))
+        bottomNavRouter.pushController(RouterTransaction.with(CreateGoalController(today)))
         bottomNav.getMenu().getItem((GOAL_LIST_POSITION)).isChecked = true
         currentTabId = R.id.action_goals
     }
@@ -85,7 +85,7 @@ class TabContainerController(val startScreen: String? = null) : Controller(), Ma
     fun launchYesterdaysGoals() {
         val bottomNav = (view!!.findViewById(R.id.main_bottom_navigation) as BottomNavigationView)
         val yesterday = Date().subtractDay().roundDateToDay()
-        val controller = GoalListController(yesterday, component)
+        val controller = GoalListController(yesterday)
 
         bottomNavRouter.setRoot(RouterTransaction.with(controller));
         bottomNav.getMenu().getItem((GOAL_LIST_POSITION)).isChecked = true
@@ -121,26 +121,26 @@ class TabContainerController(val startScreen: String? = null) : Controller(), Ma
     }
 
     private fun launchHistory() {
-        val backstack = arrayListOf(RouterTransaction.with(GoalHistoryController(component)))
+        val backstack = arrayListOf(RouterTransaction.with(GoalHistoryController()))
         bottomNavRouter.setBackstack(backstack, null)
     }
 
     private fun launchDashboard() {
-        val backstack = arrayListOf(RouterTransaction.with(DashboardController(component)))
+        val backstack = arrayListOf(RouterTransaction.with(DashboardController()))
         bottomNavRouter.setBackstack(backstack, null)
     }
 
     fun launchTodaysGoals() {
         val today = Date().roundDateToDay()
-        val backstack = arrayListOf(RouterTransaction.with(GoalListController(today, component)))
+        val backstack = arrayListOf(RouterTransaction.with(GoalListController(today)))
         bottomNavRouter.setBackstack(backstack, null)
     }
 
     override fun launchNewGoal(date: Date) {
-        bottomNavRouter.pushController(RouterTransaction.with(CreateGoalController(date, component)))
+        bottomNavRouter.pushController(RouterTransaction.with(CreateGoalController(date)))
     }
     override fun launchEditGoal(goal: Goal) {
-        bottomNavRouter.pushController(RouterTransaction.with(CreateGoalController(goal, component)))
+        bottomNavRouter.pushController(RouterTransaction.with(CreateGoalController(goal)))
     }
 
     override fun goBack() {

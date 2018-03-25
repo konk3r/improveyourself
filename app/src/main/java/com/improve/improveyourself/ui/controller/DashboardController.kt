@@ -8,7 +8,6 @@ import com.improve.improveyourself.R
 import com.improve.improveyourself.data.GoalManager
 import com.improve.improveyourself.data.TimePair
 import com.improve.improveyourself.data.model.NotificationStatus
-import com.improve.improveyourself.modules.TabContainerComponent
 import com.improve.improveyourself.ui.navigation.ToolbarManager
 import com.improve.improveyourself.ui.notification.NotificationAlarmManager
 import com.improve.improveyourself.ui.view.DashboardView
@@ -23,9 +22,9 @@ import javax.inject.Inject
  * Created by konk3r on 2/7/18.
  */
 
-class DashboardController(var component: TabContainerComponent? = null) : Controller() {
+class DashboardController() : Controller() {
 
-    private lateinit var dashboardView: DashboardView
+    val component by lazy { (parentController as TabContainerController).component }
 
     @Inject lateinit var goalManager: GoalManager
     @Inject lateinit var toolbarManager: ToolbarManager
@@ -34,13 +33,14 @@ class DashboardController(var component: TabContainerComponent? = null) : Contro
     lateinit var setGoalsClickedObservable: Relay<TimePair>
     lateinit var checkInStatusObservable: Relay<NotificationStatus>
     lateinit var setGoalsStatusObservable: Relay<NotificationStatus>
+    private lateinit var dashboardView: DashboardView
 
     var disposables = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.view_dashboard, container, false)
         inflater.toString()
-        component!!.inject(this)
+        component.inject(this)
         dashboardView = DashboardViewImpl(view, this)
         setupObservables()
 

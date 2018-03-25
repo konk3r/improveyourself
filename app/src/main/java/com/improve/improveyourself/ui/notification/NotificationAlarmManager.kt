@@ -128,4 +128,14 @@ class NotificationAlarmManager( val app: ImproveApp,
         return preferenceManager.getSetGoalsNotificationsTime()
     }
 
+    fun restoreAlarms() {
+        if (preferenceManager.checkInNotificationsAreEnabled()) {
+            scheduleNextCheckInAlarm()
+        }
+
+        if (preferenceManager.setGoalsNotificationsAreEnabled()) {
+            scheduleNextSetGoalsAlarm()
+        }
+    }
+
 }
