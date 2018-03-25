@@ -12,12 +12,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/backgroundColor"
         >
 
         <View
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/main_text_description"
+            android:layout_alignBottom="@id/main_text_goals_met"
             android:layout_alignTop="@id/main_text_title"
             android:background="@color/white"
             />
@@ -69,7 +70,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/main_text_description"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="4dp"
+            android:paddingBottom="12dp"
             android:layout_toEndOf="@id/main_icon_goals_met"
             android:text="@string/main_goals_met"
             />

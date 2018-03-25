@@ -6,7 +6,7 @@ import android.widget.ArrayAdapter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.improve.improveyourself.R
 import com.improve.improveyourself.ui.controller.CreateGoalController
-import com.improve.improveyourself.util.formatToDay
+import com.improve.improveyourself.util.formatToText
 import com.improve.improveyourself.util.setAsGone
 import com.improve.improveyourself.util.show
 import kotlinx.android.extensions.LayoutContainer
@@ -53,7 +53,7 @@ class CreateGoalViewImpl(override val containerView: View, val controller: Creat
     }
 
     override fun setDate(date: Date) {
-        create_goal_date.text = date.formatToDay()
+        create_goal_date.text = date.formatToText()
     }
 
     override fun setTitle(title: String) {

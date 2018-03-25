@@ -25,6 +25,10 @@ data class Goal(var type: String = "",
         }
     }
 
+    override fun toString(): String {
+        return "Goal(title='$title')"
+    }
+
     companion object Type {
         val PRODUCTIVE = "Productive"
         val SELF_CARE = "Self Care"

@@ -7,6 +7,7 @@ import com.jakewharton.rxrelay2.PublishRelay
 import com.jakewharton.rxrelay2.Relay
 import io.objectbox.Box
 import io.reactivex.Observable
+import io.reactivex.Single
 import java.util.*
 
 /**
@@ -45,6 +46,19 @@ class GoalManager(val goalBox: Box<Goal>) {
                 .find()
 
         return Observable.just(goals)
+    }
+
+    fun loadPreviousGoalDates(): Single<MutableList<Date>> {
+        val today = Date().roundDateToDay()
+        val goals = goalBox.query()
+                .less(Goal_.date, today)
+                .build()
+                .find()
+
+        return Observable.fromIterable(goals)
+                .distinct({goal -> goal.date})
+                .map {goal -> goal.date}
+                .toSortedList()
     }
 
     fun removeGoal(goal: Goal) {

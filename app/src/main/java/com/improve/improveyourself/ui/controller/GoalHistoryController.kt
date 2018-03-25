@@ -7,10 +7,13 @@ import com.bluelinelabs.conductor.Controller
 import com.improve.improveyourself.R
 import com.improve.improveyourself.data.GoalManager
 import com.improve.improveyourself.data.model.Goal
+import com.improve.improveyourself.data.model.ListItem
 import com.improve.improveyourself.modules.GoalListComponent
 import com.improve.improveyourself.modules.GoalListModule
 import com.improve.improveyourself.ui.navigation.ToolbarManager
 import com.improve.improveyourself.ui.view.GoalHistoryView
+import com.improve.improveyourself.util.formatToText
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
@@ -25,7 +28,7 @@ class GoalHistoryController : Controller() {
 
     private lateinit var listComponent: GoalListComponent
     private val disposables = CompositeDisposable()
-    private var goals: MutableList<Goal> = ArrayList()
+    private var listItems: MutableList<ListItem<Goal>> = ArrayList()
     @Inject lateinit var goalsView: GoalHistoryView
     @Inject lateinit var goalManager: GoalManager
     @Inject lateinit var toolbarManager: ToolbarManager
@@ -50,8 +53,21 @@ class GoalHistoryController : Controller() {
     private fun setupGoalChangeResponse() {
         disposables.add(goalManager.getUpdateObservable()
                 .observeOn(AndroidSchedulers.mainThread())
-                .filter({ goal -> goals.contains(goal) })
+                .filter({ goal -> listContainsGoal(goal) })
+                .map ( { goal -> findItemInList(goal) } )
                 .subscribe({goal -> goalsView.notifyUpdated(goal)}))
+    }
+
+    private fun findItemInList(goal: Goal): ListItem<Goal> {
+        return listItems.filter { listItem -> listItem.type == ListItem.Type.LINE_ITEM
+                && listItem.item == goal}
+                .first()
+    }
+
+    private fun listContainsGoal(goal: Goal): Boolean {
+        val items = listItems.filter { listItem -> listItem.type == ListItem.Type.LINE_ITEM
+                && listItem.item == goal}
+        return items.isNotEmpty()
     }
 
     override fun onAttach(view: View) {
@@ -65,14 +81,22 @@ class GoalHistoryController : Controller() {
     }
 
     private fun loadGoals() {
-        goalManager.loadPreviousGoals()
-                .observeOn(AndroidSchedulers.mainThread())
+        goalManager.loadPreviousGoalDates()
+                .toObservable()
+                .flatMap({ dates -> Observable.fromIterable(dates) })
+                .flatMap { date -> Observable.merge(
+                        Observable.just(ListItem<Goal>(ListItem.Type.HEADER, text = date.formatToText())),
+                        goalManager.loadGoalsFor(date)
+                                .flatMap { goals -> Observable.fromIterable(goals) }
+                                .map { goal -> ListItem<Goal>(ListItem.Type.LINE_ITEM, goal) }
+                )}
+                .toList()
                 .subscribe(this::onGoalsReceived)
     }
 
-    private fun onGoalsReceived(goals: MutableList<Goal>) {
-        this.goals = goals
-        goalsView.displayList(goals)
+    private fun onGoalsReceived(listItems: MutableList<ListItem<Goal>>) {
+        this.listItems = listItems
+        goalsView.displayList(listItems)
     }
 
 }

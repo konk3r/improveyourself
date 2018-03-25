@@ -20,6 +20,8 @@ fun Date.roundDateToDay() = DateUtil().dateFormat.parse(formatToDay())
 
 fun Date.formatToDay() = DateUtil().dateFormat.format(this)
 
+fun Date.formatToText() = DateUtil().dateTextFormat.format(this)
+
 fun Date.addDay(): Date {
     return Date(time + MILLISECONDS_IN_DAY)
 }
@@ -72,5 +74,9 @@ class DateUtil {
 
     val dateFormat by lazy {
         SimpleDateFormat("yyyy-MM-dd", Locale.US)
+    }
+
+    val dateTextFormat by lazy {
+        SimpleDateFormat("EEEE, MMMM d", Locale.US)
     }
 }

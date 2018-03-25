@@ -1,14 +1,13 @@
 package com.improve.improveyourself.ui.adapter
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
 import com.improve.improveyourself.R
 import com.improve.improveyourself.data.model.Goal
+import com.improve.improveyourself.data.model.ListItem
 import com.improve.improveyourself.ui.controller.GoalHistoryDialogController
-import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.list_goal.*
 
 
@@ -17,7 +16,7 @@ import kotlinx.android.synthetic.main.list_goal.*
  */
 class GoalHistoryViewHolder(override val containerView: View,
                             val goalHistoryDialogController: GoalHistoryDialogController) :
-        RecyclerView.ViewHolder(containerView), LayoutContainer {
+        GoalListItemViewHolder(containerView) {
 
     init {
         list_goal_container.setOnClickListener({ view -> displayGoalPopup(view.context) })
@@ -25,8 +24,8 @@ class GoalHistoryViewHolder(override val containerView: View,
 
     private lateinit var goal: Goal
 
-    fun bind(goal: Goal) {
-        this.goal = goal
+    override fun bind(listItem: ListItem<Goal>) {
+        this.goal = listItem.item!!
         goal_history_update_title.text = goal.title
         goal_history_update_type.text = goal.type
         goal_history_update_type_icon.setImageResource(goal.getIconResource())
