@@ -21,12 +21,22 @@ class GoalHistoryDialogController(val goalHistoryDialogView: GoalHistoryDialogVi
         goalHistoryDialogView.setTitle(goal.title)
         goalHistoryDialogView.setType(goal.type)
         goalHistoryDialogView.setDescription(goal.steps)
+        goalHistoryDialogView.setIcon(goal.getIconResource())
+
+
+        setStepsVisibility()
+        setCompletionVisibility()
+    }
+
+    private fun setStepsVisibility() {
         if (goal.steps.isEmpty()) {
             goalHistoryDialogView.removeDescription()
         } else {
             goalHistoryDialogView.displayDescription()
         }
-        goalHistoryDialogView.setIcon(goal.getIconResource())
+    }
+
+    private fun setCompletionVisibility() {
         if (goal.isCompleted) {
             goalHistoryDialogView.showCompletedIcon()
         } else {
@@ -45,6 +55,18 @@ class GoalHistoryDialogController(val goalHistoryDialogView: GoalHistoryDialogVi
 
     fun setDismissListener(listener: () -> Unit) {
         dismissListener = listener
+    }
+
+    fun onMarkIncompleteClicked() {
+        goal.isCompleted = false
+        goalManager.storeGoal(goal)
+        setCompletionVisibility()
+    }
+
+    fun onMarkCompleteClicked() {
+        goal.isCompleted = true
+        goalManager.storeGoal(goal)
+        setCompletionVisibility()
     }
 
 }

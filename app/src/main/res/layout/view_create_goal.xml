@@ -93,6 +93,15 @@
 
         </android.support.design.widget.TextInputLayout>
 
+        <Button
+            android:id="@+id/create_goal_button_delete"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/red"
+            android:text="Delete"/>
+
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton

@@ -41,4 +41,8 @@ class GoalManager(val goalBox: Box<Goal>) {
         return Observable.just(goals)
     }
 
+    fun removeGoal(goal: Goal) {
+        goalBox.remove(goal)
+    }
+
 }

@@ -4,6 +4,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.improve.improveyourself.data.model.Goal
 import com.improve.improveyourself.ui.adapter.GoalAdapter
+import com.improve.improveyourself.ui.controller.GoalListController
 import com.improve.improveyourself.ui.navigation.FabListener
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.view_goals.*
@@ -27,5 +28,9 @@ class GoalListViewImpl(override val containerView: View, val fabListener: FabLis
 
     override fun displayList(list: MutableList<Goal>) {
         goalAdapter.setList(list)
+    }
+
+    override fun setController(controller: GoalListController) {
+        goalAdapter.setLongClickListener { goal -> controller.onGoalLongClicked(goal) }
     }
 }

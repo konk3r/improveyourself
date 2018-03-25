@@ -14,4 +14,7 @@ interface CreateGoalView {
     fun setType(type: String)
     fun setSteps(steps: String)
     fun displayDateDialog(startYear: Int, startMonth: Int, startDay: Int)
+    fun hideDeleteButton()
+    fun displayDeleteButton()
+    fun displayDeleteDialog()
 }

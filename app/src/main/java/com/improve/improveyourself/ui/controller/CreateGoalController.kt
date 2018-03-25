@@ -45,12 +45,21 @@ class CreateGoalController(var date: Date = Date(), var component: TabContainerC
         createGoalView.setGoalTypes(types)
         createGoalView.setDate(date)
         setupToolbar()
+        setupDeleteButton()
 
         if(goal != null) {
             setupGoal()
         }
 
         return view
+    }
+
+    private fun setupDeleteButton() {
+        if (goal == null) {
+            createGoalView.hideDeleteButton()
+        } else {
+            createGoalView.displayDeleteButton()
+        }
     }
 
     private fun setupToolbar() {
@@ -101,6 +110,15 @@ class CreateGoalController(var date: Date = Date(), var component: TabContainerC
     fun onDateSelected(year: Int, month: Int, day: Int) {
         date = GregorianCalendar(year, month, day).time
         createGoalView.setDate(date)
+    }
+
+    fun onDeleteClicked() {
+        createGoalView.displayDeleteDialog()
+    }
+
+    fun onDeleteConfirmationClicked() {
+        goalManager.removeGoal(goal!!)
+        mainRouter.goBack()
     }
 
 }

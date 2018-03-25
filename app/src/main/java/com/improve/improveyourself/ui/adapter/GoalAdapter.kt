@@ -14,10 +14,13 @@ import com.improve.improveyourself.data.model.Goal
 class GoalAdapter(val goalManager: GoalManager): RecyclerView.Adapter<GoalViewHolder>() {
 
     private var list: MutableList<Goal> = ArrayList()
+    private var longClickListener: (Goal) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GoalViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.list_goal, parent, false)
-        return GoalViewHolder(view, goalManager)
+        val holder = GoalViewHolder(view, goalManager)
+        holder.setLongClickListener(longClickListener)
+        return holder
     }
 
     override fun getItemCount(): Int {
@@ -31,6 +34,10 @@ class GoalAdapter(val goalManager: GoalManager): RecyclerView.Adapter<GoalViewHo
     fun setList(list: MutableList<Goal>) {
         this.list = list
         notifyDataSetChanged()
+    }
+
+    fun setLongClickListener(listener: (Goal) -> Unit) {
+        this.longClickListener = listener
     }
 
 }

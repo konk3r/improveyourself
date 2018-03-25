@@ -3,9 +3,12 @@ package com.improve.improveyourself.ui.view
 import android.app.DatePickerDialog
 import android.view.View
 import android.widget.ArrayAdapter
+import com.afollestad.materialdialogs.MaterialDialog
 import com.improve.improveyourself.R
 import com.improve.improveyourself.ui.controller.CreateGoalController
 import com.improve.improveyourself.util.formatToDay
+import com.improve.improveyourself.util.setAsGone
+import com.improve.improveyourself.util.show
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.view_create_goal.*
 import java.util.*
@@ -28,7 +31,7 @@ class CreateGoalViewImpl(override val containerView: View, val controller: Creat
     }
 
     private fun setupClickEvents() {
-        create_goal_fab.setOnClickListener({ view ->
+        create_goal_fab.setOnClickListener({ _ ->
             run {
                 val type = create_goal_type.selectedItem.toString()
                 val title = create_goal_title_input.text.toString()
@@ -38,6 +41,7 @@ class CreateGoalViewImpl(override val containerView: View, val controller: Creat
         })
 
         create_goal_date.setOnClickListener({ _ -> controller.onDateClicked() })
+        create_goal_button_delete.setOnClickListener({ _ -> controller.onDeleteClicked() })
     }
 
     override fun displayGoalError() {
@@ -67,8 +71,26 @@ class CreateGoalViewImpl(override val containerView: View, val controller: Creat
 
     override fun displayDateDialog(startYear: Int, startMonth: Int, startDay: Int) {
         DatePickerDialog(containerView.context,
-                {picker, year, month, day -> controller.onDateSelected(year, month, day)},
+                { picker, year, month, day -> controller.onDateSelected(year, month, day) },
                 startYear, startMonth, startDay)
+                .show()
+    }
+
+    override fun hideDeleteButton() {
+        create_goal_button_delete.setAsGone()
+    }
+
+    override fun displayDeleteButton() {
+        create_goal_button_delete.show()
+    }
+
+    override fun displayDeleteDialog() {
+        MaterialDialog.Builder(containerView.context)
+                .title(R.string.delete_goal_dialog_title)
+                .content(R.string.delete_goal_dialog_content)
+                .negativeText(R.string.delete_goal_dialog_cancel)
+                .positiveText(R.string.delete_goal_dialog_delete)
+                .onPositive({_, _ -> controller.onDeleteConfirmationClicked()})
                 .show()
     }
 

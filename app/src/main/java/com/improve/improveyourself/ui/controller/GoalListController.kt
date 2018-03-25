@@ -9,6 +9,7 @@ import com.bluelinelabs.conductor.Controller
 import com.improve.improveyourself.R
 import com.improve.improveyourself.data.GoalManager
 import com.improve.improveyourself.data.model.DateSelection
+import com.improve.improveyourself.data.model.Goal
 import com.improve.improveyourself.modules.GoalListComponent
 import com.improve.improveyourself.modules.GoalListModule
 import com.improve.improveyourself.modules.TabContainerComponent
@@ -44,6 +45,7 @@ class GoalListController(var date: Date = Date().roundDateToDay(), var parentCom
         val view = inflater.inflate(R.layout.view_goals, container, false)
         listComponent = parentComponent!!.plus(GoalListModule(view, this))
         listComponent.inject(this)
+        goalsView.setController(this)
 
         return view
     }
@@ -92,6 +94,10 @@ class GoalListController(var date: Date = Date().roundDateToDay(), var parentCom
 
     override fun onFabClicked() {
         mainRouter.launchNewGoal(date)
+    }
+
+    fun onGoalLongClicked(goal: Goal) {
+        mainRouter.launchEditGoal(goal)
     }
 
 }

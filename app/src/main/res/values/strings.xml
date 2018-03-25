@@ -22,4 +22,8 @@
     <string name="notification_text_set_goals">Now is as good a time as any, set your upcoming goals</string>
     <string name="main_subheader">Improve your life with small changes, one day at a time</string>
     <string name="goal_history_dialog_done">done</string>
+    <string name="delete_goal_dialog_title">Delete goal</string>
+    <string name="delete_goal_dialog_content">Are you sure you want to delete this? This action can not be undone.</string>
+    <string name="delete_goal_dialog_cancel">Cancel</string>
+    <string name="delete_goal_dialog_delete">Delete</string>
 </resources>

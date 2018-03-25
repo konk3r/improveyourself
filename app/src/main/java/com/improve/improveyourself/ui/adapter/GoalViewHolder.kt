@@ -12,11 +12,14 @@ import kotlinx.android.synthetic.main.list_goal.*
  */
 class GoalViewHolder(override val containerView: View, val goalBox: GoalManager) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
+    private var longClickListener: (Goal) -> Unit = {}
+    private lateinit var goal: Goal
+
     init {
         list_goal_container.setOnClickListener({ view -> toggleGoalCompletion() })
+        list_goal_container.setOnLongClickListener({ view -> longClickListener.invoke(goal);
+            true })
     }
-
-    private lateinit var goal: Goal
 
     fun bind(goal: Goal) {
         this.goal = goal
@@ -38,5 +41,9 @@ class GoalViewHolder(override val containerView: View, val goalBox: GoalManager)
         goal.isCompleted = !goal.isCompleted
         goalBox.storeGoal(goal)
         bind(goal)
+    }
+
+    fun setLongClickListener(listener: (Goal) -> Unit) {
+        this.longClickListener = listener
     }
 }
