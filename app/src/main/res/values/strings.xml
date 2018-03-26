@@ -4,6 +4,7 @@
     <string name="main_todays_goals">Today\'s\nGoals</string>
     <string name="main_tomorrows_goals">Tomorrow\'s Goals</string>
     <string name="main_goals_met">Goals Met:</string>
+    <string name="main_current_goals">Today\'s goals</string>
     <string name="main_check_in_time_unset">Daily Check In Time</string>
     <string name="main_check_in_time_set">Daily Check In Time:</string>
     <string name="main_goal_set_time_unset">Daily Goal Set Time</string>
@@ -26,4 +27,7 @@
     <string name="delete_goal_dialog_content">Are you sure you want to delete this? This action can not be undone.</string>
     <string name="delete_goal_dialog_cancel">Cancel</string>
     <string name="delete_goal_dialog_delete">Delete</string>
+    <string name="basic_dash">-</string>
+    <string name="main_theory_text">No matter what our lives are like, everybody has room for improvement. Whether you are struggling with depression/anxiety or if there is just some change you\'d like to see in your life, it\'s easy to postpone indefinitely what we need to do. Our goal is to push people to make small changes in their lives to improve and help their life go in the direction they want.  A goal should be simple enough that it is feasible to accomplish in a day without being discouraged, but big enough that it challenges you. We recommend setting two goals every day, one to push yourself to be more productive (or maybe just productive in a way you usually aren\'t), and one to do something extra for yourself. Take it as you will, feel free to set whatever fits your life to get you where you want to go.</string>
+    <string name="main_theory_title">Our Theory</string>
 </resources>

@@ -87,15 +87,81 @@
             android:text="0"
             />
 
+        <View
+            android:id="@+id/main_header_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_below="@+id/main_input_goals_met"
+            />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/main_current_goals_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/main_header_margin"
+            android:layout_marginBottom="6dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:background="@color/white"
+            >
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="80dp"
+                >
+
+                <ImageView
+                    android:id="@+id/main_icon_current_goals"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="7dp"
+                    android:padding="2dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/main_text_current_goals"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/main_text_current_goals"
+                    app:srcCompat="@drawable/ic_check_circle_black_24dp"/>
+
+                <TextView
+                    android:id="@+id/main_text_current_goals"
+                    style="@style/TextAppearance.AppCompat.Subhead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/main_current_goals"
+                    app:layout_constraintStart_toEndOf="@+id/main_icon_current_goals"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <LinearLayout
+                    android:id="@+id/main_current_goals_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/main_text_current_goals">
+                </LinearLayout>
+
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.v7.widget.CardView>
+
         <android.support.v7.widget.CardView
             android:id="@+id/main_set_goals_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/main_text_goals_met"
-            android:layout_marginBottom="8dp"
+            android:layout_below="@id/main_current_goals_card"
+            android:layout_marginBottom="6dp"
+            android:layout_marginTop="6dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
             android:background="@color/white"
             >
 
@@ -178,10 +244,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/main_set_goals_card"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginTop="6dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
             android:background="@color/white"
             >
 
@@ -265,11 +331,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/main_check_in_card"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="6dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            app:cardBackgroundColor="?attr/colorPrimary"
+            android:layout_marginTop="6dp"
             >
 
             <LinearLayout
@@ -283,8 +348,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="2dp"
-                    android:text="Our Theory"
-                    android:textColor="@color/off_black"
+                    android:text="@string/main_theory_title"
                     />
 
                 <View
@@ -294,15 +358,14 @@
                     android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="4dp"
-                    android:background="@color/off_black"
+                    android:background="@color/black"
                     />
 
                 <TextView
                     style="@style/Base.TextAppearance.AppCompat.Body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="No matter what our lives are like, everybody has room for improvement. Whether you are struggling with depression/anxiety or if there is just some change you'd like to see in your life, it's easy to postpone indefinitely what we need to do. Our goal is to push people to make small changes in their lives to improve and help their life go in the direction they want.\n\nA goal should be simple enough that it is feasable to accomplish in a day without being discouraged, but big enough that it challenges you. We recommend setting two goals every day, one to push yourself to be more productive (or maybe just productive in a way you usually aren't), and one to do something extra for yourself. Take it as you will, feel free to set whatever fits your life to get you where you want to go."
-                    android:textColor="@color/off_black"
+                    android:text="@string/main_theory_text"
                     />
 
             </LinearLayout>

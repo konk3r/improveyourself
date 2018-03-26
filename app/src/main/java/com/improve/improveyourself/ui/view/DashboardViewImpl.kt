@@ -2,18 +2,22 @@ package com.improve.improveyourself.ui.view
 
 import android.animation.Animator
 import android.app.TimePickerDialog
+import android.view.LayoutInflater
 import android.view.View
 import com.improve.improveyourself.R
 import com.improve.improveyourself.data.TimePair
+import com.improve.improveyourself.data.model.Goal
 import com.improve.improveyourself.ui.controller.DashboardController
 import com.improve.improveyourself.util.*
 import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.list_current_goal.view.*
 import kotlinx.android.synthetic.main.view_dashboard.*
 
 /**
  * Created by konk3r on 2/11/18.
  */
-class DashboardViewImpl(override val containerView: View, val controller: DashboardController) :
+class DashboardViewImpl(override val containerView: View, val controller: DashboardController,
+                        val inflater: LayoutInflater) :
         LayoutContainer, DashboardView {
 
     init {
@@ -135,6 +139,36 @@ class DashboardViewImpl(override val containerView: View, val controller: Dashbo
 
     override fun fadeOutCheckInTime(animationEndListener: (Animator) -> Unit) {
         main_text_check_in_time.fadeOut(endListener = animationEndListener)
+    }
+
+    override fun hideTodaysGoals() {
+        main_current_goals_card.setAsGone()
+    }
+
+    override fun displayTodaysGoals() {
+        main_current_goals_card.show()
+    }
+
+    override fun setTodaysGoalsList(goals: MutableList<Goal>) {
+        main_current_goals_content.removeAllViews()
+        for (goal in goals) {
+            val view = createGoalView(goal)
+            main_current_goals_content.addView(view)
+        }
+    }
+
+    private fun createGoalView(goal: Goal): View {
+        val view = inflater.inflate(R.layout.list_current_goal, main_current_goals_content, false)
+        view.current_goal_title.text = goal.title
+        view.current_goal_type.text = goal.type
+        view.current_goal_type_icon.setImageResource(goal.getIconResource())
+        if (goal.isCompleted) {
+            view.current_goal_completed.show()
+        } else {
+            view.current_goal_completed.hide()
+        }
+
+        return view
     }
 
 }

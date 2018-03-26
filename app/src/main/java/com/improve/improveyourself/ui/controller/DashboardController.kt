@@ -7,15 +7,18 @@ import com.bluelinelabs.conductor.Controller
 import com.improve.improveyourself.R
 import com.improve.improveyourself.data.GoalManager
 import com.improve.improveyourself.data.TimePair
+import com.improve.improveyourself.data.model.Goal
 import com.improve.improveyourself.data.model.NotificationStatus
 import com.improve.improveyourself.ui.navigation.ToolbarManager
 import com.improve.improveyourself.ui.notification.NotificationAlarmManager
 import com.improve.improveyourself.ui.view.DashboardView
 import com.improve.improveyourself.ui.view.DashboardViewImpl
+import com.improve.improveyourself.util.roundDateToDay
 import com.jakewharton.rxrelay2.PublishRelay
 import com.jakewharton.rxrelay2.Relay
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -29,6 +32,7 @@ class DashboardController() : Controller() {
     @Inject lateinit var goalManager: GoalManager
     @Inject lateinit var toolbarManager: ToolbarManager
     @Inject lateinit var notificationManager: NotificationAlarmManager
+    @Inject lateinit var inflater: LayoutInflater
     lateinit var checkInClickedObservable: Relay<TimePair>
     lateinit var setGoalsClickedObservable: Relay<TimePair>
     lateinit var checkInStatusObservable: Relay<NotificationStatus>
@@ -41,10 +45,27 @@ class DashboardController() : Controller() {
         val view = inflater.inflate(R.layout.view_dashboard, container, false)
         inflater.toString()
         component.inject(this)
-        dashboardView = DashboardViewImpl(view, this)
+        dashboardView = DashboardViewImpl(view, this, inflater)
         setupObservables()
+        loadCurrentGoals()
 
         return view
+    }
+
+    private fun loadCurrentGoals() {
+        disposables.add(
+                goalManager.loadGoalsFor(Date().roundDateToDay())
+                        .subscribe(this::onTodaysGoalsLoaded)
+        )
+    }
+
+    private fun onTodaysGoalsLoaded(goals: MutableList<Goal>) {
+        if (goals.isEmpty()) {
+            dashboardView.hideTodaysGoals()
+        } else {
+            dashboardView.displayTodaysGoals()
+            dashboardView.setTodaysGoalsList(goals)
+        }
     }
 
     override fun onAttach(view: View) {
@@ -72,10 +93,10 @@ class DashboardController() : Controller() {
                         .subscribe({ time -> notificationManager.setSetGoalsTime(time.hour, time.minutes) }),
 
                 checkInStatusObservable.observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ status -> onCheckInChange(status)}),
+                        .subscribe({ status -> onCheckInChange(status) }),
 
                 setGoalsStatusObservable.observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ status -> onSetGoalsChange(status)})
+                        .subscribe({ status -> onSetGoalsChange(status) })
         )
 
     }
@@ -83,7 +104,7 @@ class DashboardController() : Controller() {
     private fun onSetGoalsChange(status: NotificationStatus) {
         if (status.isEnabled) {
             displaySetGoalsTime(status.timePair!!)
-        } else  {
+        } else {
             fadeOutSetGoalsTime()
         }
     }
@@ -91,7 +112,7 @@ class DashboardController() : Controller() {
     private fun onCheckInChange(status: NotificationStatus) {
         if (status.isEnabled) {
             displayCheckInTime(status.timePair!!)
-        } else  {
+        } else {
             fadeOutCheckInTime()
         }
     }

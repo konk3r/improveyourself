@@ -2,6 +2,7 @@ package com.improve.improveyourself.ui.view
 
 import android.animation.Animator
 import com.improve.improveyourself.data.TimePair
+import com.improve.improveyourself.data.model.Goal
 
 /**
  * Created by konk3r on 2/11/18.
@@ -30,4 +31,7 @@ interface DashboardView {
     fun fadeOutSetGoalsTime(animationEndListener: (Animator) -> Unit = { animator -> {} })
     fun fadeOutCheckInCancelButton()
     fun fadeOutCheckInTime(animationEndListener: (Animator) -> Unit = { animator -> {} })
+    fun hideTodaysGoals()
+    fun displayTodaysGoals()
+    fun setTodaysGoalsList(goals: MutableList<Goal>)
 }

@@ -9,11 +9,15 @@ import android.content.Intent.ACTION_BOOT_COMPLETED
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import com.improve.improveyourself.R
+import com.improve.improveyourself.data.GoalManager
 import com.improve.improveyourself.data.PreferenceManager
 import com.improve.improveyourself.ui.ImproveApp
 import com.improve.improveyourself.ui.activity.MainActivity
 import com.improve.improveyourself.ui.notification.NotificationAlarmManager
 import com.improve.improveyourself.ui.notification.NotificationAlarmManager.IDs.GOAL_CHANNEL_ID
+import com.improve.improveyourself.util.roundDateToDay
+import com.improve.improveyourself.util.subtractDay
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -24,6 +28,7 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
     @Inject lateinit var notificationManager: NotificationManagerCompat
     @Inject lateinit var preferenceManager: PreferenceManager
     @Inject lateinit var notificationAlarmManager: NotificationAlarmManager
+    @Inject lateinit var goalManager: GoalManager
     lateinit var app: ImproveApp
 
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -48,7 +53,9 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
     }
 
     private fun sendCheckInNotification() {
-        if (!preferenceManager.checkInNotificationsAreEnabled()) {
+        val yesterday = Date().subtractDay().roundDateToDay()
+        if (!preferenceManager.checkInNotificationsAreEnabled() ||
+                goalManager.loadGoalsFor(yesterday).blockingFirst().isEmpty()) {
             return
         }
 
