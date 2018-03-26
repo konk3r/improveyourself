@@ -1,8 +1,6 @@
 package com.improve.improveyourself.ui.controller
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.bluelinelabs.conductor.Controller
 import com.improve.improveyourself.R
 import com.improve.improveyourself.data.GoalManager
@@ -56,10 +54,24 @@ class CreateGoalController(var date: Date = Date()) : Controller() {
 
     private fun setupDeleteButton() {
         if (goal == null) {
-            createGoalView.hideDeleteButton()
+            setHasOptionsMenu(false)
         } else {
-            createGoalView.displayDeleteButton()
+            setHasOptionsMenu(true)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.create_goal_main, menu);
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_delete -> {
+                onDeleteClicked()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun setupToolbar() {

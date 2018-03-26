@@ -60,7 +60,7 @@ class NotificationAlarmManager( val app: ImproveApp,
     fun scheduleNextCheckInAlarm() {
         val timePair = preferenceManager.getCheckInNotificationsTime()
         val eventTime = Date().nextInstanceOfTime(timePair.hour, timePair.minutes)
-        AlarmManagerCompat.setExact(alarmManager,
+        AlarmManagerCompat.setExactAndAllowWhileIdle(alarmManager,
                 AlarmManager.RTC_WAKEUP,
                 eventTime.time,
                 createCheckInNotificationIntent())
@@ -76,7 +76,7 @@ class NotificationAlarmManager( val app: ImproveApp,
     fun scheduleNextSetGoalsAlarm() {
         val timePair = preferenceManager.getSetGoalsNotificationsTime()
         val eventTime = Date().nextInstanceOfTime(timePair.hour, timePair.minutes)
-        AlarmManagerCompat.setExact(alarmManager,
+        AlarmManagerCompat.setExactAndAllowWhileIdle(alarmManager,
                 AlarmManager.RTC_WAKEUP,
                 eventTime.time,
                 createSetGoalNotificationIntent())

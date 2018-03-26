@@ -41,7 +41,6 @@ class CreateGoalViewImpl(override val containerView: View, val controller: Creat
         })
 
         create_goal_date.setOnClickListener({ _ -> controller.onDateClicked() })
-        create_goal_button_delete.setOnClickListener({ _ -> controller.onDeleteClicked() })
     }
 
     override fun displayGoalError() {
@@ -74,14 +73,6 @@ class CreateGoalViewImpl(override val containerView: View, val controller: Creat
                 { picker, year, month, day -> controller.onDateSelected(year, month, day) },
                 startYear, startMonth, startDay)
                 .show()
-    }
-
-    override fun hideDeleteButton() {
-        create_goal_button_delete.setAsGone()
-    }
-
-    override fun displayDeleteButton() {
-        create_goal_button_delete.show()
     }
 
     override fun displayDeleteDialog() {
